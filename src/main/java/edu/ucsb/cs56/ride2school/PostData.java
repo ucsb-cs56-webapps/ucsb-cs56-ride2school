@@ -5,9 +5,10 @@ import java.time.LocalTime;
 
 public class PostData {
 
-	public PostData(String title, Location departingLocation, Location arrivingLocation, LocalDate date, LocalTime time,
-			UserData poster, LocalTime lastUpdate, float price, int rideSeats, int seatsTaken) {
+	public PostData(String title, Long id, Location departingLocation, Location arrivingLocation, LocalDate date,
+			LocalTime time, UserData poster, LocalTime lastUpdate, float price, int rideSeats, int seatsTaken) {
 		this.title = title;
+		this.id = id;
 		this.departingLocation = departingLocation;
 		this.arrivingLocation = arrivingLocation;
 		this.date = date;
@@ -20,6 +21,7 @@ public class PostData {
 	}
 
 	private String title;
+	private Long id;
 
 	private Location departingLocation;
 	private Location arrivingLocation;
@@ -37,6 +39,14 @@ public class PostData {
 
 	public String getTitle() {
 		return title;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public void setTitle(String title) {
