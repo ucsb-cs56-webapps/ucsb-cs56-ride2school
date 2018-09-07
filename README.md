@@ -3,6 +3,8 @@ Facebook Rideshare
 
 A rideshare group app.
 
+website: https://ride2school.herokuapp.com/
+
 MVP
 Web interface that displays feed of all ride postings
 User can post listings
