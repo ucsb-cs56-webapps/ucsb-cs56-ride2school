@@ -5,7 +5,7 @@ import java.time.LocalTime;
 
 public class PostData {
 
-	public PostData(String title, Long id, Location departingLocation, Location arrivingLocation, LocalDate date,
+	public PostData(Long id, String title, Location departingLocation, Location arrivingLocation, LocalDate date,
 			LocalTime time, UserData poster, LocalTime lastUpdate, float price, int rideSeats, int seatsTaken) {
 		this.title = title;
 		this.id = id;

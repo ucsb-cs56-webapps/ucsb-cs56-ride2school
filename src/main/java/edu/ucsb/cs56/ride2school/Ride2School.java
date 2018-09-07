@@ -4,6 +4,7 @@ import static spark.Spark.get;
 import static spark.Spark.port;
 import static spark.Spark.post;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.apache.log4j.Logger;
@@ -27,19 +28,21 @@ public class Ride2School {
 
 		port(getHerokuAssignedPort());
 
+		ArrayList<PostData> posts = new ArrayList<PostData>();
+
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("name", "Sam");
 
 		// hello.mustache file is in resources/templates directory
 		get("/", (rq, rs) -> new ModelAndView(map, "feed.mustache"), new MustacheTemplateEngine());
 
-		get("/form/post", (rq, rs) -> new ModelAndView(map, "post.mustache"), new MustacheTemplateEngine());
+		get("/form/post", (rq, rs) -> new ModelAndView(posts, "post.mustache"), new MustacheTemplateEngine());
 
 		post("/login", (rq, rs) -> new ModelAndView(map, "login.mustache"), new MustacheTemplateEngine());
 
 	}
 
-	static int getHerokuAssignedPort() {
+	private static int getHerokuAssignedPort() {
 		ProcessBuilder processBuilder = new ProcessBuilder();
 		if (processBuilder.environment().get("PORT") != null) {
 			return Integer.parseInt(processBuilder.environment().get("PORT"));
