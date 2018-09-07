@@ -79,11 +79,10 @@ public class DatabaseConfig {
 	private Document convertPostDataToDocument(PostData post) {
 		Document doc = new Document().append("ID", post.getId()).append("Title", post.getTitle())
 				.append("ArrivingLocationName", post.getArrivingLocation().getName())
-				.append("DepartingLocationName", post.getDepartingLocation().getName())
-				.append("Date", post.getDate()).append("PosterID", post.getPoster().getUserId())
-				.append("PosterName", post.getPoster().getName()).append("lastUpdate", post.getLastUpdate())
-				.append("price", post.getPrice()).append("rideSeats", post.getRideSeats())
-				.append("seatsTaken", post.getSeatsTaken());
+				.append("DepartingLocationName", post.getDepartingLocation().getName()).append("Date", post.getDate())
+				.append("PosterID", post.getPoster().getUserId()).append("PosterName", post.getPoster().getName())
+				.append("lastUpdate", post.getLastUpdate()).append("price", post.getPrice())
+				.append("rideSeats", post.getRideSeats()).append("seatsTaken", post.getSeatsTaken());
 		return doc;
 	}
 
