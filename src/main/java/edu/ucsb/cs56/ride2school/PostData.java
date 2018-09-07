@@ -1,18 +1,16 @@
 package edu.ucsb.cs56.ride2school;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
+import java.util.Date;
 
 public class PostData {
 
-	public PostData(Long id, String title, Location departingLocation, Location arrivingLocation, LocalDate date,
-			LocalTime time, UserData poster, LocalTime lastUpdate, float price, int rideSeats, int seatsTaken) {
+	public PostData(Long id, String title, Location departingLocation, Location arrivingLocation, Date date,
+			UserData poster, Date lastUpdate, double price, int rideSeats, int seatsTaken) {
 		this.title = title;
 		this.id = id;
 		this.departingLocation = departingLocation;
 		this.arrivingLocation = arrivingLocation;
 		this.date = date;
-		this.time = time;
 		this.poster = poster;
 		this.lastUpdate = lastUpdate;
 		this.price = price;
@@ -26,14 +24,13 @@ public class PostData {
 	private Location departingLocation;
 	private Location arrivingLocation;
 
-	private LocalDate date;
-	private LocalTime time;
+	private Date date;
 
 	private UserData poster;
 
-	private LocalTime lastUpdate;
+	private Date lastUpdate;
 
-	private float price;
+	private double price;
 	private int rideSeats;
 	private int seatsTaken;
 
@@ -69,20 +66,12 @@ public class PostData {
 		this.arrivingLocation = arrivingLocation;
 	}
 
-	public LocalDate getDate() {
+	public Date getDate() {
 		return date;
 	}
 
-	public void setDate(LocalDate date) {
+	public void setDate(Date date) {
 		this.date = date;
-	}
-
-	public LocalTime getTime() {
-		return time;
-	}
-
-	public void setTime(LocalTime time) {
-		this.time = time;
 	}
 
 	public UserData getPoster() {
@@ -93,19 +82,19 @@ public class PostData {
 		this.poster = poster;
 	}
 
-	public LocalTime getLastUpdate() {
+	public Date getLastUpdate() {
 		return lastUpdate;
 	}
 
-	public void setLastUpdate(LocalTime lastUpdate) {
+	public void setLastUpdate(Date lastUpdate) {
 		this.lastUpdate = lastUpdate;
 	}
 
-	public float getPrice() {
+	public double getPrice() {
 		return price;
 	}
 
-	public void setPrice(float price) {
+	public void setPrice(double price) {
 		this.price = price;
 	}
 

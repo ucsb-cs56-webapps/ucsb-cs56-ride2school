@@ -1,36 +1,19 @@
 package edu.ucsb.cs56.ride2school;
 
-import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import org.bson.Document;
 
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
-import com.mongodb.ServerAddress;
-
-import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.MongoCollection;
-
-import org.bson.Document;
-import java.util.Arrays;
-import com.mongodb.Block;
-
-import com.mongodb.client.MongoCursor;
-import static com.mongodb.client.model.Filters.*;
-import com.mongodb.client.result.DeleteResult;
-import static com.mongodb.client.model.Updates.*;
-import com.mongodb.client.result.UpdateResult;
-import java.util.ArrayList;
-import java.util.List;
+import com.mongodb.client.MongoDatabase;
 
 public class DatabaseConfig {
 
-	private ArrayList<PostData> initDatabase() {
-		return null;
-	}
-
-	private void createDatabase() {
-
-		// Standard URI format: mongodb://[dbuser:dbpassword@]host:port/dbname
-
+	private String getRequestString() {
 		String dbUser = System.getenv().get("USER_");
 		String dbPassword = System.getenv().get("PASS_");
 		String dbName = System.getenv().get("DB_NAME_");
@@ -38,38 +21,63 @@ public class DatabaseConfig {
 
 		// Good practice to always obscure sensitive login information
 
-		String request = "mongodb://" + dbUser + ":" + dbPassword + "@" + hostName + "/" + dbName;
-
-		MongoClientURI uri = new MongoClientURI(request);
-		MongoClient client = new MongoClient(uri);
-		MongoDatabase db = client.getDatabase(uri.getDatabase());
+		return "mongodb://" + dbUser + ":" + dbPassword + "@" + hostName + "/" + dbName;
 	}
 
-	private void addPostToDataBase(PostData post) {
-		// Standard URI format: mongodb://[dbuser:dbpassword@]host:port/dbname
-
-		String dbUser = System.getenv().get("USER_");
-		String dbPassword = System.getenv().get("PASS_");
-		String dbName = System.getenv().get("DB_NAME_");
-		String hostName = System.getenv().get("HOST_");
-
-		// Good practice to always obscure sensitive login information
-
-		String request = "mongodb://" + dbUser + ":" + dbPassword + "@" + hostName + "/" + dbName;
-
-		MongoClientURI uri = new MongoClientURI(request);
+	public ArrayList<PostData> getAllPosts() {
+		MongoClientURI uri = new MongoClientURI(getRequestString());
 		MongoClient client = new MongoClient(uri);
 		MongoDatabase db = client.getDatabase(uri.getDatabase());
 
-		MongoCollection<Document> posts = db.getCollection("songs");
+		MongoCollection<Document> posts = db.getCollection("posts");
+
+		List<Document> documents = (List<Document>) posts.find().into(new ArrayList<Document>());
+		ArrayList<PostData> allPosts = new ArrayList<PostData>();
+
+		for (Document d : documents) {
+			allPosts.add(convertDocumentToPostData(d));
+		}
+
+		client.close();
+		return allPosts;
+	}
+
+	public void addPostToDataBase(PostData post) {
+		MongoClientURI uri = new MongoClientURI(getRequestString());
+		MongoClient client = new MongoClient(uri);
+		MongoDatabase db = client.getDatabase(uri.getDatabase());
+
+		MongoCollection<Document> posts = db.getCollection("posts");
 
 		posts.insertOne(convertPostDataToDocument(post));
+		client.close();
+
+	}
+
+	private PostData convertDocumentToPostData(Document doc) {
+		Long id = doc.getLong("ID");
+		String title = doc.getString("Title");
+		Location arrivalLocation = new Location(doc.getString("ArrivingLocationName"));
+		Location departingLocation = new Location(doc.getString("DepartingLocationName"));
+		Date date = doc.getDate("Date");
+		UserData poster = new UserData(doc.getString("PosterName"), doc.getLong("PosterID"));
+		Date lastUpdate = doc.getDate("lastUpdate");
+		double price = doc.getDouble("price");
+		int rideSeats = doc.getInteger("rideSeats");
+		int seatsTaken = doc.getInteger("seatsTaken");
+
+		return new PostData(id, title, departingLocation, arrivalLocation, date, poster, lastUpdate, price, rideSeats,
+				seatsTaken);
 	}
 
 	private Document convertPostDataToDocument(PostData post) {
 		Document doc = new Document().append("ID", post.getId()).append("Title", post.getTitle())
 				.append("ArrivingLocationName", post.getArrivingLocation().getName())
-				.append("DepartingLocationName", post.getDepartingLocation().getName());
+				.append("DepartingLocationName", post.getDepartingLocation().getName())
+				.append("Date", post.getDate().toString()).append("PosterID", post.getPoster().getUserId())
+				.append("PosterName", post.getPoster().getName()).append("lastUpdate", post.getLastUpdate())
+				.append("price", post.getPrice()).append("rideSeats", post.getRideSeats())
+				.append("seatsTaken", post.getSeatsTaken());
 		return doc;
 	}
 
