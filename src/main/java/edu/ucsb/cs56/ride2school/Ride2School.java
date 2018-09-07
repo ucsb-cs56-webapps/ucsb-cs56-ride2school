@@ -33,11 +33,12 @@ public class Ride2School {
 
         // hello.mustache file is in resources/templates directory
         get("/", (rq, rs) -> new ModelAndView(map, "feed.mustache"), new MustacheTemplateEngine());
+        //get("/", (rq, rs) -> "Hello, World");
 
-        get("/form/post", (rq, rs) -> new ModelAndView(map, "post.mustache"), new MustacheTemplateEngine());
+        // get("/form/post", (rq, rs) -> new ModelAndView(map, "post.mustache"), new MustacheTemplateEngine());
 
-        post("/login", (rq, rs) -> new ModelAndView(map, "login.mustache"), new MustacheTemplateEngine());
-
+        // post("/login", (rq, rs) -> new ModelAndView(map, "login.mustache"), new MustacheTemplateEngine());
+        System.out.println("Hello, World");
     }
 
     static int getHerokuAssignedPort() {
