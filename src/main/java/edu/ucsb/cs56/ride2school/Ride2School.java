@@ -20,7 +20,7 @@ import static spark.Spark.post;
 
 public class Ride2School {
 
-    public static final String CLASSNAME = "Ride2School";
+    public static final String CLASSNAME =  new Object() {}.getClass().getEnclosingClass().getName();;
 
     public static final Logger log = Logger.getLogger(CLASSNAME);
 
