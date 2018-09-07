@@ -49,6 +49,7 @@ public class DatabaseConfig {
 		MongoCollection<Document> posts = db.getCollection("posts");
 
 		posts.insertOne(convertPostDataToDocument(post));
+
 		client.close();
 
 	}

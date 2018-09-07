@@ -21,7 +21,7 @@ public class Ride2School {
 		port(getHerokuAssignedPort());
 
 		// Create all the Pages
-		new WebConfig();
+		new WebConfig(new DatabaseConfig());
 
 	}
 

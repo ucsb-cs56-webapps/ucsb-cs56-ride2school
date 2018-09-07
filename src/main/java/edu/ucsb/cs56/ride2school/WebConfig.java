@@ -11,15 +11,17 @@ import spark.template.mustache.MustacheTemplateEngine;
 
 public class WebConfig {
 
-	private ArrayList<PostData> posts;
 	private HashMap<String, Object> map;
 
-	public WebConfig() {
+	private DatabaseConfig db;
+
+	public WebConfig(DatabaseConfig db) {
+		this.db = db;
 		SetUpRoutes();
 	}
 
 	private void SetUpRoutes() {
-		get("/", (rq, rs) -> new ModelAndView(posts, "feed.mustache"), new MustacheTemplateEngine());
+		get("/", (rq, rs) -> new ModelAndView(db.getAllPosts(), "feed.mustache"), new MustacheTemplateEngine());
 
 		get("/form/post", (rq, rs) -> new ModelAndView(map, "post.mustache"), new MustacheTemplateEngine());
 
