@@ -34,11 +34,7 @@ public class Ride2School {
 		map.put("name", "Sam");
 
 		// hello.mustache file is in resources/templates directory
-		get("/", (rq, rs) -> new ModelAndView(map, "feed.mustache"), new MustacheTemplateEngine());
-
-		get("/form/post", (rq, rs) -> new ModelAndView(posts, "post.mustache"), new MustacheTemplateEngine());
-
-		post("/login", (rq, rs) -> new ModelAndView(map, "login.mustache"), new MustacheTemplateEngine());
+		new WebConfig();
 
 	}
 
