@@ -24,9 +24,8 @@ public class DatabaseConfig {
 		String hostName = System.getenv().get("HOST_");
 
 		// Good practice to always obscure sensitive login information
-		
 
-		return "mongodb://" + dbUser + ":" + dbPassword + "@" + hostName + "/" + dbName;
+		return "mongodb://" + dbUser + ":" + dbPassword + "@d" + hostName + "/" + dbName;
 	}
 
 	public ArrayList<PostData> getAllPosts() {
@@ -81,7 +80,7 @@ public class DatabaseConfig {
 		Document doc = new Document().append("ID", post.getId()).append("Title", post.getTitle())
 				.append("ArrivingLocationName", post.getArrivingLocation().getName())
 				.append("DepartingLocationName", post.getDepartingLocation().getName())
-				.append("Date", post.getDate().toString()).append("PosterID", post.getPoster().getUserId())
+				.append("Date", post.getDate()).append("PosterID", post.getPoster().getUserId())
 				.append("PosterName", post.getPoster().getName()).append("lastUpdate", post.getLastUpdate())
 				.append("price", post.getPrice()).append("rideSeats", post.getRideSeats())
 				.append("seatsTaken", post.getSeatsTaken());
