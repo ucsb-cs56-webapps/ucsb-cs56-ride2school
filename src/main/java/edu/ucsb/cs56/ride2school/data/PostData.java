@@ -1,4 +1,4 @@
-package edu.ucsb.cs56.ride2school;
+package edu.ucsb.cs56.ride2school.data;
 
 import java.util.Date;
 

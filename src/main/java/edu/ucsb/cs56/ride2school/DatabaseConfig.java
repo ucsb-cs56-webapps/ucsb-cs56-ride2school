@@ -11,6 +11,10 @@ import com.mongodb.MongoClientURI;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 
+import edu.ucsb.cs56.ride2school.data.Location;
+import edu.ucsb.cs56.ride2school.data.PostData;
+import edu.ucsb.cs56.ride2school.data.UserData;
+
 public class DatabaseConfig {
 
 	private String getRequestString() {
