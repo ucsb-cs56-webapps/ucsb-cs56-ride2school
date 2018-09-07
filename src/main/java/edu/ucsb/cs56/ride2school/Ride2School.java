@@ -1,16 +1,8 @@
 package edu.ucsb.cs56.ride2school;
 
-import static spark.Spark.get;
 import static spark.Spark.port;
-import static spark.Spark.post;
-
-import java.util.ArrayList;
-import java.util.HashMap;
 
 import org.apache.log4j.Logger;
-
-import spark.ModelAndView;
-import spark.template.mustache.MustacheTemplateEngine;
 
 /**
  * Simple example of using Mustache Templates
