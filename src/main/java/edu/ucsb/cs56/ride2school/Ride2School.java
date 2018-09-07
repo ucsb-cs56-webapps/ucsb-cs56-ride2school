@@ -28,12 +28,7 @@ public class Ride2School {
 
 		port(getHerokuAssignedPort());
 
-		ArrayList<PostData> posts = new ArrayList<PostData>();
-
-		HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("name", "Sam");
-
-		// hello.mustache file is in resources/templates directory
+		// Create all the Pages
 		new WebConfig();
 
 	}
