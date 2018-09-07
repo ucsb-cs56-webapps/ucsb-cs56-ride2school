@@ -1,4 +1,4 @@
-package edu.ucsb.cs56.ride2school;
+package edu.ucsb.cs56.ride2school.config;
 
 import java.util.ArrayList;
 import java.util.Date;
