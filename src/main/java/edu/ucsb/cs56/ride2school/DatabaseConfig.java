@@ -28,7 +28,6 @@ public class DatabaseConfig {
 		MongoClientURI uri = new MongoClientURI(getRequestString());
 		MongoClient client = new MongoClient(uri);
 		MongoDatabase db = client.getDatabase(uri.getDatabase());
-
 		MongoCollection<Document> posts = db.getCollection("posts");
 
 		List<Document> documents = (List<Document>) posts.find().into(new ArrayList<Document>());
