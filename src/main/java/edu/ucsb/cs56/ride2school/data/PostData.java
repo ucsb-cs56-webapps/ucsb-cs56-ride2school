@@ -17,6 +17,21 @@ public class PostData {
 		this.rideSeats = rideSeats;
 		this.seatsTaken = seatsTaken;
 	}
+	
+	public PostData(Long id)
+	{
+		this.id = id;
+		title = "Test " + id;
+		
+		departingLocation = new Location("UCSB");
+		arrivingLocation = new Location("SF");
+		date = new Date();
+		poster = new UserData("Amy", 1L);
+		lastUpdate = new Date(System.currentTimeMillis());
+		price = 20.00;
+		rideSeats = 4;
+		seatsTaken = 0;
+	}
 
 	private String title;
 	private Long id;

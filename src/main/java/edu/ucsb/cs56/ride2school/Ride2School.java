@@ -24,6 +24,7 @@ public class Ride2School {
 		port(getHerokuAssignedPort());
 
 		// Create all the Pages
+		System.out.println("localhost:" + getHerokuAssignedPort());
 		new WebConfig(new DatabaseConfig());
 
 	}
