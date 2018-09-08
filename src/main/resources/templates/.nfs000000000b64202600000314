@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+  <h2>Edit Your Post</h2>
+
+  <form action="">
+  <br>
+  <input type="text" name="post" value="Ride from {{post.getDepartingLocation.getName}} to {{getArrivingLocation.getName}}
+    <br> Ride is at {{getDate}}
+    <br> There is {{getSeatsLeft}}/{{getRideSeats}} seats left
+    <br> Ride costs {{getPrice}}
+    <br> Ride is from {{getPoster.getName}}">
+  <br>
+  </form>
+
+  {{!--<form method="post" action="/">
+<button type="submit">Submit Changes</button>--}}
+
+
+</body>
+</html>
