@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+{{> head }}
+<body>
+ {{> nav }}
+ <h1>Post</h1>
+ <form>
+  <input type="radio" name="gender" value="ride" checked> I need a ride!<br>
+  <input type="radio" name="gender" value="drive"> I'm driving!
+ 
+</form> 
+ <form>
+  From:<br>
+  <input type="text" name="Loaction"><br>
+  To:<br>
+  <input type="text" name="Destination">
+</form>
+ {{> bootstrap-from-cdn-body }}
+</body>
+</html>
