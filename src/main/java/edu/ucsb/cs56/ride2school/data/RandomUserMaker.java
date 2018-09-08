@@ -13,7 +13,7 @@ public class RandomUserMaker {
 	private Random random;
 
 	// A list of first names to be used for random name generation
-	private static final List<String> firstNamesList = Arrays.asList("James", "John", "Robert", "Michael", "William",
+	private static final List<String> FIRST_NAMES_LIST = Arrays.asList("James", "John", "Robert", "Michael", "William",
 			"David", "Richard", "Charles", "Josheph", "Thomas", "Christopher", "Daniel", "Paul", "Mark", "Donald",
 			"George", "Mary", "Patricia", "Linda", "Barbara", "Elizabeth", "Jennifer", "Maria", "Susan", "Margaret",
 			"Dorothy", "Lisa", "Nancy", "Karen", "Betty", "Hellen", "Sandra");
