@@ -76,7 +76,6 @@ public class DatabaseConfig {
 	}
 
 	public void addPostToDataBase(PostData post) {
-		System.out.println(getRequestString());
 		MongoClientURI uri = new MongoClientURI(getRequestString());
 		MongoClient client = new MongoClient(uri);
 		MongoDatabase db = client.getDatabase(uri.getDatabase());
