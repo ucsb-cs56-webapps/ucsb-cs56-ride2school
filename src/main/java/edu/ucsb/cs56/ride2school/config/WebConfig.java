@@ -26,7 +26,7 @@ public class WebConfig {
 	private void SetUpRoutes() {
 		get("/", (rq, rs) -> new ModelAndView(db.getAllPosts(), "feed.mustache"), new MustacheTemplateEngine());
 
-		post("/form/post", (rq, rs) -> new ModelAndView(map, "post.mustache"), new MustacheTemplateEngine());
+		get("/post", (rq, rs) -> new ModelAndView(map, "post.mustache"), new MustacheTemplateEngine());
 
 		post("/login", (rq, rs) -> new ModelAndView(map, "login.mustache"), new MustacheTemplateEngine());
 	}
