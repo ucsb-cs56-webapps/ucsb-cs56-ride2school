@@ -128,4 +128,9 @@ public class PostData {
 	public void setSeatsTaken(int seatsTaken) {
 		this.seatsTaken = seatsTaken;
 	}
+	
+	public int getSeatsLeft()
+	{
+		return rideSeats - seatsTaken;
+	}
 }

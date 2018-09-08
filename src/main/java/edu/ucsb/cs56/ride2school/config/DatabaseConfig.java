@@ -48,6 +48,8 @@ public class DatabaseConfig {
 		return allPosts;
 	}
 
+	//Modifies a post
+	// @param postToModify is the post that should be modified, post is the new information
 	public void modifyPost(PostData postToModify, PostData post) {
 		MongoClientURI uri = new MongoClientURI(getRequestString());
 		MongoClient client = new MongoClient(uri);
