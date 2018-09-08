@@ -13,8 +13,8 @@ public class RandomPostMaker {
 	private DatabaseConfig db;
 	private Random random = new Random();
 
-	private int maxSeats;
-	private double maxPrice;
+	private int maxSeats = 20;
+	private double maxPrice = 30.0;
 
 	public RandomPostMaker(DatabaseConfig db) {
 		this.db = db;
@@ -31,19 +31,16 @@ public class RandomPostMaker {
 
 			Location arrivingLocation = departingLocation;
 			while (arrivingLocation.getName() == departingLocation.getName()) {
-				locations.get(random.nextInt(locations.size()));
+				arrivingLocation = locations.get(random.nextInt(locations.size()));
 			}
-
-
+			
 			// Generate a random date
 			Date date = new Date(-946771200000L + (Math.abs(random.nextLong()) % (70L * 365 * 24 * 60 * 60 * 1000)));
-
 
 			// Generate a random name for our poster
 			UserData poster = new RandomUserMaker(db).createRandomUserData();
 
-
-			//Generate a random date for our post
+			// Generate a random date for our post
 
 			Date lastUpdate = new Date(System.currentTimeMillis());
 
@@ -57,5 +54,8 @@ public class RandomPostMaker {
 		return posts;
 	}
 
-	private List<Location> locations = Arrays.asList(new Location("UCSB"), new Location("UCSF"));
+	private List<Location> locations = Arrays.asList(new Location("UCSB"), new Location("UCSF"), new Location("UCSC"),
+			new Location("UCB"), new Location("UCSD"), new Location("UCD"), new Location("UCLA"), new Location("UCI"),
+			new Location("UCR"), new Location("UCM"));
+
 }

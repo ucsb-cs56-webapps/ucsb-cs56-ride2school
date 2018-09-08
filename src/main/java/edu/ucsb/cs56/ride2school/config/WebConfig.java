@@ -27,7 +27,7 @@ public class WebConfig {
 		if(db.getAllPosts().size() > 50)
 			return;
 		List<PostData> posts = new RandomPostMaker(db).createRandomPosts(50);
-		for(int i = 0; i <posts.size(); i++)
+		for(int i = 0; i < posts.size(); i++)
 		{
 			db.addPostToDataBase(posts.get(i));
 		}

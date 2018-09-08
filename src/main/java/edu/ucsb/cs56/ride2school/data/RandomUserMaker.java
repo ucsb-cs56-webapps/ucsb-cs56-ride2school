@@ -29,8 +29,8 @@ public class RandomUserMaker {
 		long id = System.currentTimeMillis();
 
 		// Generate a random name for our poster
-		int randomFirstNameIndex = random.nextInt(firstNamesList.size());
-		String randomPosterName = firstNamesList.get(randomFirstNameIndex);
+		int randomFirstNameIndex = random.nextInt(FIRST_NAMES_LIST.size());
+		String randomPosterName = FIRST_NAMES_LIST.get(randomFirstNameIndex);
 		randomPosterName += " " + (char) (random.nextInt(26) + 'a') + ".";
 
 		// Create a new UserData object from the randomly generated name and
