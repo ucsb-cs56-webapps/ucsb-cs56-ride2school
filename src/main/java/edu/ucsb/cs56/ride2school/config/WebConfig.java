@@ -21,17 +21,21 @@ public class WebConfig {
 	}
 
 	private void SetUpRoutes() {
-		
-		get("/", (rq, rs) -> 
-		{
+		get("/", (rq, rs) -> {
 			Map<String, Object> map = new HashMap<>();
 			map.put("posts", getPosts());
 			return new ModelAndView(map, "feed.mustache");
 		}, new MustacheTemplateEngine());
 
-		post("/form/post", (rq, rs) -> new ModelAndView(null, "post.mustache"), new MustacheTemplateEngine());
+		post("/form/post", (rq, rs) -> {
+			Map<String, Object> map = new HashMap<>();
+			return new ModelAndView(map, "post.mustache");
+		}, new MustacheTemplateEngine());
 
-		post("/login", (rq, rs) -> new ModelAndView(null, "login.mustache"), new MustacheTemplateEngine());
+		post("/login", (rq, rs) -> {
+			Map<String, Object> map = new HashMap<>();
+			return new ModelAndView(map, "login.mustache");
+		}, new MustacheTemplateEngine());
 	}
 
 	private List<PostData> getPosts() {

@@ -31,7 +31,6 @@ public class DatabaseConfig {
 	// Gets all posts currently in database
 	// Returns an ArrayList with all the Posts
 	public ArrayList<PostData> getAllPosts() {
-		System.out.println(getRequestString());
 		MongoClientURI uri = new MongoClientURI(getRequestString());
 		MongoClient client = new MongoClient(uri);
 		MongoDatabase db = client.getDatabase(uri.getDatabase());
