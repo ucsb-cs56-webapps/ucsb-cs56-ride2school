@@ -27,7 +27,7 @@ public class WebConfig {
 			return new ModelAndView(map, "feed.mustache");
 		}, new MustacheTemplateEngine());
 
-		post("/form/post", (rq, rs) -> {
+		get("/form/post", (rq, rs) -> {
 			Map<String, Object> map = new HashMap<>();
 			return new ModelAndView(map, "post.mustache");
 		}, new MustacheTemplateEngine());
