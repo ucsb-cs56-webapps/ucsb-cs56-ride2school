@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+	<html>
+	{{> head }}
+	<body> {{> nav }}
+        {{#posts}}
+            <hr/>
+            <div class="panel panel-default">
+                <div align="center" class="panel-heading">
+                    <h3 class="panel-title"> {{getTitle}} </h3>
+                </div>
+                	<form method="get" action="/form/post/{{getId}}/edit">
+    			 		<button type="submit">Edit Post</button>
+					</form>
+                    <div align="center" class="panel-body">
+                        Ride from {{getDepartingLocation.getName}} to {{getArrivingLocation.getName}}
+                        <br> Ride is at {{getDate}}
+                        <br> There is {{getSeatsLeft}}/{{getRideSeats}} seats left
+                        <br> Ride costs {{getPrice}}
+                        <br> Ride is from {{getPoster.getName}}
+                    </div>
+                </div>
+        {{/posts}}
+    {{> bootstrap-from-cdn-body }}
+	</body>
+</html>
