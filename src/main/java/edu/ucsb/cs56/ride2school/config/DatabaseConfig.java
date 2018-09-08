@@ -28,6 +28,8 @@ public class DatabaseConfig {
 		return "mongodb://" + dbUser + ":" + dbPassword + "@d" + hostName + "/" + dbName;
 	}
 
+	// Gets all posts currently in database
+	// Returns an ArrayList with all the Posts
 	public ArrayList<PostData> getAllPosts() {
 		System.out.println(getRequestString());
 		MongoClientURI uri = new MongoClientURI(getRequestString());
@@ -44,6 +46,32 @@ public class DatabaseConfig {
 
 		client.close();
 		return allPosts;
+	}
+
+	public void modifyPost(PostData postToModify, PostData post) {
+		MongoClientURI uri = new MongoClientURI(getRequestString());
+		MongoClient client = new MongoClient(uri);
+		MongoDatabase db = client.getDatabase(uri.getDatabase());
+		MongoCollection<Document> posts = db.getCollection("posts");
+
+		// Not very efficient TODO: UPDATE
+		posts.deleteOne(convertPostDataToDocument(post));
+		posts.insertOne(convertPostDataToDocument(post));
+
+		client.close();
+	}
+
+	// Searches Database and deletes post
+	// @param is the post to delete
+	public void deletePost(PostData post) {
+		MongoClientURI uri = new MongoClientURI(getRequestString());
+		MongoClient client = new MongoClient(uri);
+		MongoDatabase db = client.getDatabase(uri.getDatabase());
+		MongoCollection<Document> posts = db.getCollection("posts");
+
+		posts.deleteOne(convertPostDataToDocument(post));
+
+		client.close();
 	}
 
 	public void addPostToDataBase(PostData post) {
