@@ -9,14 +9,17 @@
                     <h3 class="panel-title"> {{getTitle}} </h3>
                 </div>
                     <div align="center" class="panel-body">
-                        Ride from {{getDepartingLocation.getName}} to {{getArrivingLocation.getName}} 
+                        Ride from {{getDepartingLocation.getName}} to {{getArrivingLocation.getName}}
                         <br> Ride is at {{getDate}}
                         <br> There is {{getSeatsLeft}}/{{getRideSeats}} seats left
                         <br> Ride costs {{getPrice}}
                         <br> Ride is from {{getPoster.getName}}
-                    </div>   
+                    </div>
                 </div>
              </div>
+						 <form method="get" action="/forms/editpost">
+    			 		<button type="submit">Edit Post 2</button>
+							</form>
         {{/posts}}
     {{> bootstrap-from-cdn-body }}
 	</body>
