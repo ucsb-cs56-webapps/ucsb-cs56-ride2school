@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+{{> head }}
+<body>
+ {{> nav }}
+ <h1>Post</h1>
+ <form>
+  <input type="radio" name="gender" value="ride" checked> I need a ride!<br>
+  <input type="radio" name="gender" value="drive"> I'm driving!
+
+</form>
+
+ <form>
+  From:<br>
+  <input type="text" name="Location"><br>
+  To:<br>
+  <input type="text" name="Destination"><br>
+  Date:<br>
+  <input type="text" name"Date"><br>
+  Seats:<br>
+  <input type="text" name"Seats"><br>
+  Price:<br>
+  <input type="text" name"Price"><br>
+</form>
+ {{> bootstrap-from-cdn-body }}
+</body>
+</html>
