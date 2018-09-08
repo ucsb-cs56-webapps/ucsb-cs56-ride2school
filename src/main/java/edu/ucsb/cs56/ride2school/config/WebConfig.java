@@ -3,8 +3,9 @@ package edu.ucsb.cs56.ride2school.config;
 import static spark.Spark.get;
 import static spark.Spark.post;
 
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import edu.ucsb.cs56.ride2school.data.PostData;
 import spark.ModelAndView;
@@ -12,35 +13,35 @@ import spark.template.mustache.MustacheTemplateEngine;
 
 public class WebConfig {
 
-	private HashMap<String, Object> map;
-	private ArrayList<PostData> posts;
-
 	private DatabaseConfig db;
 
 	public WebConfig(DatabaseConfig db) {
 		this.db = db;
 		SetUpRoutes();
-
-		testDatabase();
 	}
 
 	private void SetUpRoutes() {
-		UpdatePosts();
 
-		get("/", (rq, rs) -> new ModelAndView(posts, "feed.mustache"), new MustacheTemplateEngine());
+		get("/", (rq, rs) -> {
+			Map<String, Object> map = new HashMap<>();
+			map.put("posts", getPosts());
+			return new ModelAndView(map, "feed.mustache");
+		}, new MustacheTemplateEngine());
 
-		get("/post", (rq, rs) -> new ModelAndView(map, "post.mustache"), new MustacheTemplateEngine());
+		get("/form/post", (rq, rs) -> {
+			Map<String, Object> map = new HashMap<>();
+			return new ModelAndView(map, "post.mustache");
+		}, new MustacheTemplateEngine());
 
-		post("/login", (rq, rs) -> new ModelAndView(map, "login.mustache"), new MustacheTemplateEngine());
+		get("/login", (rq, rs) -> {
+			Map<String, Object> map = new HashMap<>();
+			return new ModelAndView(map, "login.mustache");
+		}, new MustacheTemplateEngine());
 	}
 
-	private void UpdatePosts() {
-		posts = db.getAllPosts();
+	private List<PostData> getPosts() {
+		List<PostData> posts = db.getAllPosts();
 		posts.sort((p1, p2) -> p1.getLastUpdate().compareTo(p2.getLastUpdate()));
-	}
-
-	private void testDatabase() {
-		System.out.println("Hello");
-		System.out.println(posts.get(0).getTitle());
+		return posts;
 	}
 }
