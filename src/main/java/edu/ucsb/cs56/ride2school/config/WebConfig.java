@@ -21,6 +21,7 @@ public class WebConfig {
 	}
 
 	private void SetUpRoutes() {
+
 		get("/", (rq, rs) -> {
 			Map<String, Object> map = new HashMap<>();
 			map.put("posts", getPosts());
@@ -32,7 +33,7 @@ public class WebConfig {
 			return new ModelAndView(map, "post.mustache");
 		}, new MustacheTemplateEngine());
 
-		post("/login", (rq, rs) -> {
+		get("/login", (rq, rs) -> {
 			Map<String, Object> map = new HashMap<>();
 			return new ModelAndView(map, "login.mustache");
 		}, new MustacheTemplateEngine());
