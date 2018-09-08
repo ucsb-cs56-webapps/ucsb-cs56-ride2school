@@ -33,9 +33,7 @@ public class WebConfig {
 			return new ModelAndView(map, "post.mustache");
 		}, new MustacheTemplateEngine());
 
-		get("/form/editpost/t/:postID", (rq, rs) -> {
-			
-			System.out.println(rq.params(":postID"));
+		get("/form/post/:postID/edit", (rq, rs) -> {
 			Long id = Long.parseLong(rq.params(":postID"));
 			PostData post = getPosts().get(id.intValue());
 			
