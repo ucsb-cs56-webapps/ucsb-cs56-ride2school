@@ -33,6 +33,16 @@ public class WebConfig {
 			return new ModelAndView(map, "post.mustache");
 		}, new MustacheTemplateEngine());
 
+		get("/form/editpost/:postID", (rq, rs) -> {
+			Long id = Long.parseLong(rq.params(":postID"));
+			PostData post = getPosts().get(id.intValue());
+			
+			Map<String, Object> map = new HashMap<>();
+			map.put("post", post);
+			
+			return new ModelAndView(map, "editpost.mustache");
+		}, new MustacheTemplateEngine());
+		
 		get("/login", (rq, rs) -> {
 			Map<String, Object> map = new HashMap<>();
 			return new ModelAndView(map, "login.mustache");

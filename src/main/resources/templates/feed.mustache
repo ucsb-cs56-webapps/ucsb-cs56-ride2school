@@ -8,6 +8,9 @@
                 <div align="center" class="panel-heading">
                     <h3 class="panel-title"> {{getTitle}} </h3>
                 </div>
+                	<form method="get" action="/forms/editpost/{{getID}}">
+    			 		<button type="submit">Edit Post</button>
+					</form>
                     <div align="center" class="panel-body">
                         Ride from {{getDepartingLocation.getName}} to {{getArrivingLocation.getName}}
                         <br> Ride is at {{getDate}}
@@ -16,10 +19,7 @@
                         <br> Ride is from {{getPoster.getName}}
                     </div>
                 </div>
-             </div>
-						 <form method="get" action="/forms/editpost">
-    			 		<button type="submit">Edit Post 2</button>
-							</form>
+             </div>			
         {{/posts}}
     {{> bootstrap-from-cdn-body }}
 	</body>
