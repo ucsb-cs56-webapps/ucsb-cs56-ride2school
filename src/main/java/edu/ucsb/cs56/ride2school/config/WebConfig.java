@@ -38,7 +38,6 @@ public class WebConfig {
 			return new ModelAndView(map, "login.mustache");
 		}, new MustacheTemplateEngine());
 	}
-
 	private List<PostData> getPosts() {
 		List<PostData> posts = db.getAllPosts();
 		posts.sort((p1, p2) -> p1.getLastUpdate().compareTo(p2.getLastUpdate()));
