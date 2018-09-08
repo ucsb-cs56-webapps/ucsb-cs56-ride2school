@@ -7,14 +7,8 @@ import java.util.List;
 import java.util.Random;
 
 import edu.ucsb.cs56.ride2school.config.DatabaseConfig;
-import edu.ucsb.cs56.ride2school.data.RandomUserMaker;
 
 public class RandomPostMaker {
-
-	private static final List<String> firstNamesList = Arrays.asList("James","John","Robert","Michael","William",
-	"David","Richard","Charles","Josheph","Thomas","Christopher","Daniel","Paul","Mark","Donald",
-	"George","Mary","Patricia","Linda","Barbara","Elizabeth","Jennifer","Maria","Susan","Margaret",
-	"Dorothy","Lisa","Nancy","Karen","Betty","Hellen","Sandra");
 
 	private DatabaseConfig db;
 	private Random random = new Random();
@@ -45,10 +39,7 @@ public class RandomPostMaker {
 
 
 			// Generate a random name for our poster
-			int randomFirstNameIndex = random.nextInt(firstNamesList.size());
-			String randomPosterName = firstNamesList.get(randomFirstNameIndex);
-			randomPosterName += " " + (char)(random.nextInt(26) + 'a') + ".";
-			UserData poster = new UserData(randomPosterName, 1L);
+			UserData poster = new RandomUserMaker(db).createRandomUserData();
 
 
 			//Generate a random date for our post
@@ -66,5 +57,4 @@ public class RandomPostMaker {
 	}
 
 	private List<Location> locations = Arrays.asList(new Location("UCSB"), new Location("UCSF"));
-	private List<UserData> users = Arrays.asList();
 }
