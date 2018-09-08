@@ -36,7 +36,7 @@ public class RandomPostMaker {
 
 
 			// Generate a random date
-			Date date = new Date(-946771200000L + (Math.abs(rnd.nextLong()) % (70L * 365 * 24 * 60 * 60 * 1000));
+			Date date = new Date(-946771200000L + (Math.abs(random.nextLong()) % (70L * 365 * 24 * 60 * 60 * 1000)));
 
 
 			// Generate a random name for our poster
