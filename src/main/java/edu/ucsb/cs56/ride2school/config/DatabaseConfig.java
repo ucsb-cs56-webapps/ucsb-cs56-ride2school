@@ -34,6 +34,7 @@ public class DatabaseConfig {
 
 	// Closes Stream on GarbageCollection
 	public void finalize() {
+		System.out.println("Closing Database Stream");
 		client.close();
 	}
 
