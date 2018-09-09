@@ -26,27 +26,32 @@ public class DatabaseConfig {
 		if (DatabaseConfig.instance != null)
 			System.out.println("You can't have two instances of DatabaseConfig");
 		DatabaseConfig.instance = this;
-
-		MongoClientURI uri = new MongoClientURI(getRequestString());
-		client = new MongoClient(uri);
-		db = client.getDatabase(uri.getDatabase());
+		setUpDatabase();
 	}
-
-	// Closes Stream on GarbageCollection
-	public void finalize() {
-		System.out.println("Closing Database Stream");
-		client.close();
-	}
-
-	private String getRequestString() {
+	
+	private void setUpDatabase()
+	{
+		System.out.println("Setting up Database");
 		String dbUser = System.getenv().get("USER_");
 		String dbPassword = System.getenv().get("PASS_");
 		String dbName = System.getenv().get("DB_NAME_");
 		String hostName = System.getenv().get("HOST_");
+		
+		String requestString = "mongodb://" + dbUser + ":" + dbPassword + "@d" + hostName + "/" + dbName;
+		
+		System.out.println("Connecting Using: " + requestString);
+		MongoClientURI uri = new MongoClientURI(requestString);
+		client = new MongoClient(uri);
+		db = client.getDatabase(uri.getDatabase());
+		System.out.println("Finished setting up Database");
+		
+		
+	}
 
-		// Good practice to always obscure sensitive login information
-
-		return "mongodb://" + dbUser + ":" + dbPassword + "@d" + hostName + "/" + dbName;
+	// Closes Stream on GarbageCollection
+	public void finalize() {
+		System.out.println("Closing Database");
+		client.close();
 	}
 
 	// Gets all posts currently in database

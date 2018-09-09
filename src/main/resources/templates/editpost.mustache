@@ -1,22 +1,15 @@
 <!DOCTYPE html>
-<html>
-<body>
+	<html>
+	{{> head }}
+	<body> {{> nav }}
+  		<h2>Edit Your Post</h2>
 
-  <!DOCTYPE html>
-  <html>
-  <body>
+  		<form action="">
+ 		<br>
+  		<input type="text" name="post" value= "testing {{post.getTitle}}">
+  		<br>
 
-  <h2>Edit Your Post</h2>
-
-  <form action="">
-  <br>
-  <input type="text" name="post" value= "testing">
-  <br>
-
-  </form>
-  
-  </body>
-  </html>
-
-</body>
+  		</form>
+  	{{> bootstrap-from-cdn-body }}
+	</body>
 </html>

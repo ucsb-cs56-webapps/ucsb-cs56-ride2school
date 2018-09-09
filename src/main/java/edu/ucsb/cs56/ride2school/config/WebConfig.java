@@ -19,11 +19,13 @@ public class WebConfig {
 	private boolean testingMode = true;
 
 	public WebConfig() {
+		System.out.println("Setting up Pages");
 		if (testingMode) {
 			newUsers();
 			newPosts();
 		}
 		SetUpRoutes();
+		System.out.println("Finished setting up pages");
 	}
 
 	private void newUsers() {
