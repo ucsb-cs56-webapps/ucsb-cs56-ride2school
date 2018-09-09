@@ -49,7 +49,9 @@ public class WebConfig {
 	private void SetUpRoutes() {
 		get("/", (rq, rs) -> {
 			Map<String, Object> map = new HashMap<>();
+			
 			map.put("posts", getPosts());
+			
 			return new ModelAndView(map, "feed.mustache");
 		}, new MustacheTemplateEngine());
 

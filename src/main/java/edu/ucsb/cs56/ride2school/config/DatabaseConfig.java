@@ -32,6 +32,7 @@ public class DatabaseConfig {
 	private void setUpDatabase()
 	{
 		System.out.println("Setting up Database");
+		
 		String dbUser = System.getenv().get("USER_");
 		String dbPassword = System.getenv().get("PASS_");
 		String dbName = System.getenv().get("DB_NAME_");
@@ -53,9 +54,6 @@ public class DatabaseConfig {
 		System.out.println("Closing Database");
 		client.close();
 	}
-
-	// Gets all posts currently in database
-	// Returns an ArrayList with all the Posts
 
 	public ArrayList<PostData> getAllPosts() {
 		MongoCollection<Document> posts = db.getCollection("PostData");
@@ -106,8 +104,8 @@ public class DatabaseConfig {
 
 	// Puts the data object into correct Database Collection
 	public void addToDatabase(StoreableData data) {
-		MongoCollection<Document> dbData = db.getCollection(data.getCollectionName());
-		dbData.insertOne(data.convertToDocument());
+		MongoCollection<Document> collection = db.getCollection(data.getCollectionName());
+		collection.insertOne(data.convertToDocument());
 	}
 
 }
