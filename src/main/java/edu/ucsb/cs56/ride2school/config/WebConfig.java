@@ -14,14 +14,10 @@ import spark.template.mustache.MustacheTemplateEngine;
 
 public class WebConfig {
 
-	private DatabaseConfig db;
-
 	private boolean testingMode = true;
 
-	public WebConfig(DatabaseConfig db) {
-		this.db = db;
+	public WebConfig() {
 		if (testingMode) {
-			System.out.println("Hi");
 			newUsers();
 			newPosts();
 		}
@@ -29,18 +25,18 @@ public class WebConfig {
 	}
 
 	private void newUsers() {
-		int minUsers = 50;
-		while (db.getAllUsers().size() < minUsers) {
+		int minUsers = 3;
+		while (DatabaseConfig.instance.getAllUsers().size() < minUsers) {
 			System.out.println("New User");
-			db.addToDatabase(RandomUser.createRandomUser());
+			DatabaseConfig.instance.addToDatabase(RandomUser.createRandomUser());
 		}
 	}
 
 	private void newPosts() {
 		int minPosts = 50;
-		while (db.getAllPosts().size() < minPosts) {
+		while (DatabaseConfig.instance.getAllPosts().size() < minPosts) {
 			System.out.println("New Post");
-			db.addToDatabase(RandomPost.createRandomPost(db.getAllUsers(), 100.00, 12));
+			DatabaseConfig.instance.addToDatabase(RandomPost.createRandomPost(100.00, 12));
 		}
 	}
 
@@ -81,7 +77,7 @@ public class WebConfig {
 	}
 
 	private List<PostData> getPosts() {
-		List<PostData> posts = db.getAllPosts();
+		List<PostData> posts = DatabaseConfig.instance.getAllPosts();
 		posts.sort((p1, p2) -> p1.getLastUpdate().compareTo(p2.getLastUpdate()));
 		return posts;
 	}

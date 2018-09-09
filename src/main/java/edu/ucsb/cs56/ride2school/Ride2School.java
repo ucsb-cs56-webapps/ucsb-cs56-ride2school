@@ -25,7 +25,12 @@ public class Ride2School {
 
 		// Create all the Pages
 		System.out.println("localhost:" + getHerokuAssignedPort());
-		new WebConfig(new DatabaseConfig());
+		
+		System.out.println("Creating Database");
+		new DatabaseConfig();
+		
+		System.out.println("Setting up Pages");
+		new WebConfig();
 
 	}
 

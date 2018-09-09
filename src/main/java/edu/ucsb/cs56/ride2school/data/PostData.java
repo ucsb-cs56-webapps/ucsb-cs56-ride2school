@@ -4,6 +4,8 @@ import java.util.Date;
 
 import org.bson.Document;
 
+import edu.ucsb.cs56.ride2school.config.DatabaseConfig;
+
 public class PostData extends StoreableData {
 
 	public PostData(String title, Location departingLocation, Location arrivingLocation, Date date, UserData poster,
@@ -49,6 +51,7 @@ public class PostData extends StoreableData {
 
 	@Override
 	public void convertFromDocument(Document doc) {
+		this.poster = DatabaseConfig.instance.getUserByID(doc.getObjectId("PosterID"));
 		this.title = doc.getString("Title");
 		this.arrivingLocation = new Location(doc.getString("ArrivingLocationName"));
 		this.departingLocation = new Location(doc.getString("DepartingLocationName"));
