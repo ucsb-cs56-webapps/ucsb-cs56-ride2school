@@ -2,12 +2,14 @@ package edu.ucsb.cs56.ride2school.data;
 
 import java.util.Date;
 
-public class PostData {
+import org.bson.Document;
 
-	public PostData(Long id, String title, Location departingLocation, Location arrivingLocation, Date date,
-			UserData poster, Date lastUpdate, double price, int rideSeats, int seatsTaken) {
+public class PostData extends StoreableData {
+
+	public PostData(String title, Location departingLocation, Location arrivingLocation, Date date, UserData poster,
+			Date lastUpdate, double price, int rideSeats, int seatsTaken) {
+		super("PostData");
 		this.title = title;
-		this.id = id;
 		this.departingLocation = departingLocation;
 		this.arrivingLocation = arrivingLocation;
 		this.date = date;
@@ -17,24 +19,12 @@ public class PostData {
 		this.rideSeats = rideSeats;
 		this.seatsTaken = seatsTaken;
 	}
-	
-	public PostData(Long id)
-	{
-		this.id = id;
-		title = "Test " + id;
-		
-		departingLocation = new Location("UCSB");
-		arrivingLocation = new Location("SF");
-		date = new Date();
-		poster = new UserData("Amy", 1L);
-		lastUpdate = new Date(System.currentTimeMillis());
-		price = 20.00;
-		rideSeats = 4;
-		seatsTaken = 0;
+
+	public PostData(Document d) {
+		super("PostData", d);
 	}
 
 	private String title;
-	private Long id;
 
 	private Location departingLocation;
 	private Location arrivingLocation;
@@ -49,16 +39,29 @@ public class PostData {
 	private int rideSeats;
 	private int seatsTaken;
 
+	@Override
+	public Document convertToDocument() {
+		return newDoc().append("Title", this.title).append("ArrivingLocationName", this.arrivingLocation.getName())
+				.append("DepartingLocationName", this.departingLocation.getName()).append("Date", this.date)
+				.append("PosterID", this.poster.getID()).append("lastUpdate", this.lastUpdate)
+				.append("price", this.price).append("rideSeats", this.rideSeats).append("seatsTaken", this.seatsTaken);
+	}
+
+	@Override
+	public void convertFromDocument(Document doc) {
+		this.title = doc.getString("Title");
+		this.arrivingLocation = new Location(doc.getString("ArrivingLocationName"));
+		this.departingLocation = new Location(doc.getString("DepartingLocationName"));
+		this.date = doc.getDate("Date");
+		this.lastUpdate = doc.getDate("lastUpdate");
+		this.price = doc.getDouble("price");
+		this.rideSeats = doc.getInteger("rideSeats");
+		this.seatsTaken = doc.getInteger("seatsTaken");
+
+	}
+
 	public String getTitle() {
 		return title;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
 	}
 
 	public void setTitle(String title) {
@@ -128,9 +131,8 @@ public class PostData {
 	public void setSeatsTaken(int seatsTaken) {
 		this.seatsTaken = seatsTaken;
 	}
-	
-	public int getSeatsLeft()
-	{
+
+	public int getSeatsLeft() {
 		return rideSeats - seatsTaken;
 	}
 }

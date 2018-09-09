@@ -1,7 +1,6 @@
 package edu.ucsb.cs56.ride2school.config;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.bson.Document;
@@ -11,8 +10,8 @@ import com.mongodb.MongoClientURI;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 
-import edu.ucsb.cs56.ride2school.data.Location;
 import edu.ucsb.cs56.ride2school.data.PostData;
+import edu.ucsb.cs56.ride2school.data.StoreableData;
 import edu.ucsb.cs56.ride2school.data.UserData;
 
 public class DatabaseConfig {
@@ -30,88 +29,52 @@ public class DatabaseConfig {
 
 	// Gets all posts currently in database
 	// Returns an ArrayList with all the Posts
+
 	public ArrayList<PostData> getAllPosts() {
 		MongoClientURI uri = new MongoClientURI(getRequestString());
 		MongoClient client = new MongoClient(uri);
 		MongoDatabase db = client.getDatabase(uri.getDatabase());
-		MongoCollection<Document> posts = db.getCollection("posts");
+		MongoCollection<Document> posts = db.getCollection("PostData");
 
 		List<Document> documents = (List<Document>) posts.find().into(new ArrayList<Document>());
 		ArrayList<PostData> allPosts = new ArrayList<PostData>();
 
 		for (Document d : documents) {
-			allPosts.add(convertDocumentToPostData(d));
+			allPosts.add(new PostData(d));
 		}
 
 		client.close();
 		return allPosts;
 	}
 
-	//Modifies a post
-	// @param postToModify is the post that should be modified, post is the new information
-	public void modifyPost(PostData postToModify, PostData post) {
+	public ArrayList<UserData> getAllUsers() {
 		MongoClientURI uri = new MongoClientURI(getRequestString());
 		MongoClient client = new MongoClient(uri);
 		MongoDatabase db = client.getDatabase(uri.getDatabase());
-		MongoCollection<Document> posts = db.getCollection("posts");
+		MongoCollection<Document> users = db.getCollection("UserData");
 
-		// Not very efficient TODO: UPDATE
-		posts.deleteOne(convertPostDataToDocument(post));
-		posts.insertOne(convertPostDataToDocument(post));
+		List<Document> documents = (List<Document>) users.find().into(new ArrayList<Document>());
+		ArrayList<UserData> allUsers = new ArrayList<UserData>();
 
-		client.close();
-	}
-
-	// Searches Database and deletes post
-	// @param is the post to delete
-	public void deletePost(PostData post) {
-		MongoClientURI uri = new MongoClientURI(getRequestString());
-		MongoClient client = new MongoClient(uri);
-		MongoDatabase db = client.getDatabase(uri.getDatabase());
-		MongoCollection<Document> posts = db.getCollection("posts");
-
-		posts.deleteOne(convertPostDataToDocument(post));
+		for (Document d : documents) {
+			allUsers.add(new UserData(d));
+		}
 
 		client.close();
+		return allUsers;
 	}
 
-	public void addPostToDataBase(PostData post) {
+	// Puts the data object into correct Database Collection
+	public void addToDatabase(StoreableData data) {
 		MongoClientURI uri = new MongoClientURI(getRequestString());
 		MongoClient client = new MongoClient(uri);
 		MongoDatabase db = client.getDatabase(uri.getDatabase());
 
-		MongoCollection<Document> posts = db.getCollection("posts");
-
-		posts.insertOne(convertPostDataToDocument(post));
+		MongoCollection<Document> dbData = db.getCollection(data.getCollectionName());
+		dbData.insertOne(data.convertToDocument());
 
 		client.close();
 
-	}
-
-	private PostData convertDocumentToPostData(Document doc) {
-		Long id = doc.getLong("ID");
-		String title = doc.getString("Title");
-		Location arrivalLocation = new Location(doc.getString("ArrivingLocationName"));
-		Location departingLocation = new Location(doc.getString("DepartingLocationName"));
-		Date date = doc.getDate("Date");
-		UserData poster = new UserData(doc.getString("PosterName"), doc.getLong("PosterID"));
-		Date lastUpdate = doc.getDate("lastUpdate");
-		double price = doc.getDouble("price");
-		int rideSeats = doc.getInteger("rideSeats");
-		int seatsTaken = doc.getInteger("seatsTaken");
-
-		return new PostData(id, title, departingLocation, arrivalLocation, date, poster, lastUpdate, price, rideSeats,
-				seatsTaken);
-	}
-
-	private Document convertPostDataToDocument(PostData post) {
-		Document doc = new Document().append("ID", post.getId()).append("Title", post.getTitle())
-				.append("ArrivingLocationName", post.getArrivingLocation().getName())
-				.append("DepartingLocationName", post.getDepartingLocation().getName()).append("Date", post.getDate())
-				.append("PosterID", post.getPoster().getUserId()).append("PosterName", post.getPoster().getName())
-				.append("lastUpdate", post.getLastUpdate()).append("price", post.getPrice())
-				.append("rideSeats", post.getRideSeats()).append("seatsTaken", post.getSeatsTaken());
-		return doc;
 	}
 
 }

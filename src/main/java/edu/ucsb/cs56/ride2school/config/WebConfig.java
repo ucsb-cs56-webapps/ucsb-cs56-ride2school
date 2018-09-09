@@ -6,8 +6,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import Util.RandomPost;
+import Util.RandomUser;
 import edu.ucsb.cs56.ride2school.data.PostData;
-import edu.ucsb.cs56.ride2school.data.RandomPostMaker;
 import spark.ModelAndView;
 import spark.template.mustache.MustacheTemplateEngine;
 
@@ -15,18 +16,31 @@ public class WebConfig {
 
 	private DatabaseConfig db;
 
+	private boolean testingMode = true;
+
 	public WebConfig(DatabaseConfig db) {
 		this.db = db;
-		//newPosts();
+		if (testingMode) {
+			System.out.println("Hi");
+			newUsers();
+			newPosts();
+		}
 		SetUpRoutes();
 	}
 
+	private void newUsers() {
+		int minUsers = 50;
+		while (db.getAllUsers().size() < minUsers) {
+			System.out.println("New User");
+			db.addToDatabase(RandomUser.createRandomUser());
+		}
+	}
+
 	private void newPosts() {
-		if (getPosts().size() < 50)
-			return;
-		List<PostData> posts = new RandomPostMaker(db).createRandomPosts(50);
-		for (int i = 0; i < posts.size(); i++) {
-			db.addPostToDataBase(posts.get(i));
+		int minPosts = 50;
+		while (db.getAllPosts().size() < minPosts) {
+			System.out.println("New Post");
+			db.addToDatabase(RandomPost.createRandomPost(db.getAllUsers(), 100.00, 12));
 		}
 	}
 
@@ -44,9 +58,15 @@ public class WebConfig {
 		}, new MustacheTemplateEngine());
 
 		get("/form/post/:postID/edit", (rq, rs) -> {
+			PostData post = null;
+			for (PostData p : getPosts()) {
+				if (p.getID().toHexString() == rq.params(":postID")) {
+					post = p;
+				}
+			}
 
-			Long id = Long.parseLong(rq.params(":postID"));
-			PostData post = getPosts().get(id.intValue());
+			if (post == null)
+				System.out.println("Cannot find any post of ID: " + rq.params(":postID"));
 
 			Map<String, Object> map = new HashMap<>();
 			map.put("post", post);
