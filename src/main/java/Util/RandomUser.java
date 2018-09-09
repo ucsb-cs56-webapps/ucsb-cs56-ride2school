@@ -17,7 +17,8 @@ public class RandomUser {
 
 	public static UserData createRandomUser() {
 		// Create a new UserData object from the randomly generated name and
-		return new UserData(FIRST_NAMES_LIST.get(rand.nextInt(FIRST_NAMES_LIST.size())) + " "
-				+ Character.toUpperCase(rand.nextInt(26) + 'a') + ".");
+		char lastNameCharacter = (char) Character.toUpperCase(rand.nextInt(26) + 'a');
+		return new UserData(
+				FIRST_NAMES_LIST.get(rand.nextInt(FIRST_NAMES_LIST.size())) + " " + lastNameCharacter + ".");
 	}
 }
