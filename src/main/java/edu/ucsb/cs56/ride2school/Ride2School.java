@@ -15,7 +15,7 @@ import edu.ucsb.cs56.ride2school.config.WebConfig;
 public class Ride2School {
 
 	public static final String CLASSNAME = new Object() {
-	}.getClass().getEnclosingClass().getName();;
+	}.getClass().getEnclosingClass().getName();
 
 	public static final Logger log = Logger.getLogger(CLASSNAME);
 
@@ -23,7 +23,6 @@ public class Ride2School {
 
 		port(getHerokuAssignedPort());
 
-		// Create all the Pages
 		System.out.println("localhost:" + getHerokuAssignedPort());
 		
 		new DatabaseConfig();

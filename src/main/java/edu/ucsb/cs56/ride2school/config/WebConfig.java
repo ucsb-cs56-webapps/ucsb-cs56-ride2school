@@ -71,6 +71,15 @@ public class WebConfig {
 
 			return new ModelAndView(map, "editpost.mustache");
 		}, new MustacheTemplateEngine());
+		
+		get("/form/post/:postID/", (rq, rs) -> {
+			PostData post = DatabaseConfig.instance.getPostByID(new ObjectId(rq.params(":postID")));
+
+			Map<String, Object> map = new HashMap<>();
+			map.put("post", post);
+
+			return new ModelAndView(map, "viewpost.mustache");
+		}, new MustacheTemplateEngine());
 
 		get("/login", (rq, rs) -> {
 			Map<String, Object> map = new HashMap<>();

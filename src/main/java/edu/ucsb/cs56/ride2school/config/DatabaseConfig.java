@@ -8,6 +8,7 @@ import org.bson.types.ObjectId;
 
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
+import com.mongodb.MongoTimeoutException;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 
@@ -28,25 +29,27 @@ public class DatabaseConfig {
 		DatabaseConfig.instance = this;
 		setUpDatabase();
 	}
-	
-	private void setUpDatabase()
-	{
+
+	private void setUpDatabase() {
 		System.out.println("Setting up Database");
-		
+
 		String dbUser = System.getenv().get("USER_");
 		String dbPassword = System.getenv().get("PASS_");
 		String dbName = System.getenv().get("DB_NAME_");
 		String hostName = System.getenv().get("HOST_");
-		
+
 		String requestString = "mongodb://" + dbUser + ":" + dbPassword + "@d" + hostName + "/" + dbName;
-		
+
 		System.out.println("Connecting Using: " + requestString);
-		MongoClientURI uri = new MongoClientURI(requestString);
-		client = new MongoClient(uri);
-		db = client.getDatabase(uri.getDatabase());
-		System.out.println("Finished setting up Database");
-		
-		
+		try {
+			MongoClientURI uri = new MongoClientURI(requestString);
+			client = new MongoClient(uri);
+			db = client.getDatabase(uri.getDatabase());
+			System.out.println("Finished setting up Database");
+		} catch (MongoTimeoutException e) {
+			System.out.println("Failed to connect to Database");
+		}
+
 	}
 
 	// Closes Stream on GarbageCollection
