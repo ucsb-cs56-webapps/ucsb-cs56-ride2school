@@ -9,7 +9,7 @@
 
   <groupId>webapps_ride2school</groupId>
   <artifactId>ride2school</artifactId>
-  <version>1.0</version>
+  <version>	</version>
   <url>https://github.com/ucsb-cs56-webapps/ucsb-cs56-ride2school</url>
 
   <!-- configure what mvn package produces -->
