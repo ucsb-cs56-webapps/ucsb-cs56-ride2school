@@ -49,9 +49,12 @@ public class WebConfig {
 	private void SetUpRoutes() {
 		get("/", (rq, rs) -> {
 			Map<String, Object> map = new HashMap<>();
-			
-			map.put("posts", getPosts());
-			
+
+			List<PostData> posts = DatabaseConfig.instance.getAllPosts();
+			posts.sort((p1, p2) -> p1.getLastUpdate().compareTo(p2.getLastUpdate()));
+
+			map.put("posts", posts);
+
 			return new ModelAndView(map, "feed.mustache");
 		}, new MustacheTemplateEngine());
 
@@ -73,11 +76,5 @@ public class WebConfig {
 			Map<String, Object> map = new HashMap<>();
 			return new ModelAndView(map, "login.mustache");
 		}, new MustacheTemplateEngine());
-	}
-
-	private List<PostData> getPosts() {
-		List<PostData> posts = DatabaseConfig.instance.getAllPosts();
-		posts.sort((p1, p2) -> p1.getLastUpdate().compareTo(p2.getLastUpdate()));
-		return posts;
 	}
 }
