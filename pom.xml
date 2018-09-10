@@ -9,7 +9,7 @@
 
   <groupId>webapps_ride2school</groupId>
   <artifactId>ride2school</artifactId>
-  <version>	</version>
+  <version>1.0</version>
   <url>https://github.com/ucsb-cs56-webapps/ucsb-cs56-ride2school</url>
 
   <!-- configure what mvn package produces -->
@@ -23,7 +23,7 @@
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
     <userDefinedMainClass>edu.ucsb.cs56.ride2school.Ride2School</userDefinedMainClass>
-    <userDefinedHerokuApp>TBD</userDefinedHerokuApp>
+    <userDefinedHerokuApp>ride2school</userDefinedHerokuApp>
   </properties>
 
   <!-- what other software does our project depend on (third-party JARs, etc.) -->
