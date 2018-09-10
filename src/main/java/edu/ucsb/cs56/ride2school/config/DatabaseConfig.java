@@ -39,15 +39,15 @@ public class DatabaseConfig {
 		String hostName = System.getenv().get("HOST_");
 
 		String requestString = "mongodb://" + dbUser + ":" + dbPassword + "@d" + hostName + "/" + dbName;
+		System.out.println("Tried to connect using: " + requestString);
 		try {
 			MongoClientURI uri = new MongoClientURI(requestString);
 			client = new MongoClient(uri);
 			db = client.getDatabase(uri.getDatabase());
 			System.out.println("Finished setting up Database");
-			db.listCollectionNames();
+			
 		} catch (MongoTimeoutException e) {
 			System.err.println("Failed to connect to Database");
-			System.out.println("Tried to connect using: " + requestString);
 		}
 	}
 
