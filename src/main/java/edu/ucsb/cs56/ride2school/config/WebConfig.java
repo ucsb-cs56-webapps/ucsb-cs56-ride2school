@@ -76,12 +76,12 @@ public class WebConfig {
 		}, new MustacheTemplateEngine());
 
 		get("/posts/:postID/delete", (rq, rs) -> {
-			try
-			{
-			DatabaseConfig.instance
-					.deleteDatabaseObject(DatabaseConfig.instance.getPostByID(new ObjectId(rq.params(":postID"))));
-			} finally {
 			rs.redirect("/");
+			try {
+				DatabaseConfig.instance
+						.deleteDatabaseObject(DatabaseConfig.instance.getPostByID(new ObjectId(rq.params(":postID"))));
+			} catch(Exception e) {
+				// USER clicked button twice while other was deleting
 			}
 			return "<h2> Post DELETED <h2>";
 		});

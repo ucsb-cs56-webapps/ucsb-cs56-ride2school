@@ -23,7 +23,7 @@ public class Ride2School {
 
 		port(getHerokuAssignedPort());
 
-		System.out.println("localhost:" + getHerokuAssignedPort());
+		System.out.println("http://localhost:" + getHerokuAssignedPort());
 		
 		new DatabaseConfig();
 		
