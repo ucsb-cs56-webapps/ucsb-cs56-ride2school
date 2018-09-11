@@ -68,7 +68,7 @@ public class WebConfig {
 		get("/posts/:postID/edit", (rq, rs) -> {
 			System.out.println("hi");
 			PostData post = DatabaseConfig.instance.getPostByID(new ObjectId(rq.params(":postID")));
-
+      DatabaseConfig.instance.modifyDatabaseObject(DatabaseConfig.instance.getPostByID(new ObjectId(rq.params(":postID"))));
 			Map<String, Object> map = new HashMap<>();
 			map.put("post", post);
 
