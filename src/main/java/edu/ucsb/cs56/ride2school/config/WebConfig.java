@@ -3,14 +3,9 @@ package edu.ucsb.cs56.ride2school.config;
 import static spark.Spark.get;
 import static spark.Spark.post;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
-
-import javax.swing.plaf.synth.SynthSeparatorUI;
 
 import org.bson.types.ObjectId;
 
@@ -18,7 +13,6 @@ import Util.RandomPost;
 import Util.RandomUser;
 import edu.ucsb.cs56.ride2school.data.Location;
 import edu.ucsb.cs56.ride2school.data.PostData;
-import edu.ucsb.cs56.ride2school.data.UserData;
 import spark.ModelAndView;
 import spark.template.mustache.MustacheTemplateEngine;
 
@@ -72,7 +66,19 @@ public class WebConfig {
 		}, new MustacheTemplateEngine());
 
 		post("/posts/add", (rq, rs) -> {
-			System.out.println(rq.attributes());
+			System.out.println(rq.body());
+			try {
+				Map<String, String> info = rq.params();
+
+				String title = info.get("title");
+				Location departingLocation = new Location(info.get("departingLocation"));
+				Location arrivingLocation = new Location(info.get("arrivingLocation"));
+				Date date = new Date(rq.params("date"));
+				int seats = Integer.parseInt(info.get("seats"));
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 			return null;
 		});
 
