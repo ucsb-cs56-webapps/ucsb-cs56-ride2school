@@ -134,7 +134,8 @@ public class WebConfig {
 			PostData post = DatabaseConfig.instance.getPostByID(new ObjectId(rq.params(":postID")));
 			post.setDepartingLocation(new Location(info.get("departure")));
 			post.setArrivingLocation(new Location(info.get("arriving")));
-//			post.setSeatsTaken(info.get("seats taken"));
+		//	post.setDate(info.get("date"));
+			post.setSeatsTaken(info.get("seats taken"));
 			post.setRideSeats(info.get("total seats"));
 			post.setPrice(info.get("cost"));
 			DatabaseConfig.instance.modifyDatabaseObject(post);
