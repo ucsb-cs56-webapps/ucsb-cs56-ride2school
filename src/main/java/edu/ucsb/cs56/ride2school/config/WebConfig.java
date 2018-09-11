@@ -3,13 +3,14 @@ package edu.ucsb.cs56.ride2school.config;
 import static spark.Spark.get;
 import static spark.Spark.post;
 
-import java.text.Format;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Random;
 
 import org.bson.types.ObjectId;
 
@@ -17,6 +18,7 @@ import Util.RandomPost;
 import Util.RandomUser;
 import edu.ucsb.cs56.ride2school.data.Location;
 import edu.ucsb.cs56.ride2school.data.PostData;
+import edu.ucsb.cs56.ride2school.data.UserData;
 import spark.ModelAndView;
 import spark.template.mustache.MustacheTemplateEngine;
 
@@ -71,6 +73,10 @@ public class WebConfig {
 
 		post("/posts/add", (rq, rs) -> {
 			System.out.println(rq.body());
+
+			ArrayList<UserData> users = DatabaseConfig.instance.getAllUsers();
+			UserData poster = users.get(new Random().nextInt(users.size()));
+
 			try {
 				Map<String, String> info = rq.params();
 
@@ -81,6 +87,9 @@ public class WebConfig {
 				Date date = format.parse(info.get("date"));
 				int seats = Integer.parseInt(info.get("seats"));
 
+				PostData post = new PostData(title, departingLocation, arrivingLocation, date, poster, new Date(), 20.0,
+						seats, seats);
+				DatabaseConfig.instance.addToDatabase(post);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
