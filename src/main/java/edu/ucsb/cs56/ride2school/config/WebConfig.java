@@ -100,7 +100,7 @@ public class WebConfig {
 
 		/*
 		 * post("/posts/add", (rq, rs) -> {
-		 * 
+		 *
 		 * String title = ""; Location departingLocation = null; Location
 		 * arrivingLocation = null; Date date = null; int seats = 0; UserData
 		 * poster = null; try { title = rq.params("title"); departingLocation =
@@ -108,11 +108,11 @@ public class WebConfig {
 		 * Location(rq.params("arrivingLocation")); date = new
 		 * Date(rq.params("date")); seats =
 		 * Integer.parseInt(rq.params("seats"));
-		 * 
+		 *
 		 * ArrayList<UserData> users = DatabaseConfig.instance.getAllUsers();
 		 * poster = users.get(new Random().nextInt(users.size())); } catch
 		 * (Exception e) { e.printStackTrace(); }
-		 * 
+		 *
 		 * DatabaseConfig.instance.addToDatabase(new PostData(title,
 		 * departingLocation, arrivingLocation, date, poster, new Date(), 20.0,
 		 * seats, seats)); System.out.println("Added new Post!");
@@ -122,12 +122,27 @@ public class WebConfig {
 		get("/posts/:postID/edit", (rq, rs) -> {
 			System.out.println("hi");
 			PostData post = DatabaseConfig.instance.getPostByID(new ObjectId(rq.params(":postID")));
-      DatabaseConfig.instance.modifyDatabaseObject(DatabaseConfig.instance.getPostByID(new ObjectId(rq.params(":postID"))));
-			Map<String, Object> map = new HashMap<>();
+    	Map<String, Object> map = new HashMap<>();
 			map.put("post", post);
 
 			return new ModelAndView(map, "editpost.mustache");
 		}, new MustacheTemplateEngine());
+
+		post("/posts/:postID/edit", (rq, rs) -> {
+			System.out.println(rq.body());
+			Map<String, String> info = rq.params();
+			PostData post = DatabaseConfig.instance.getPostByID(new ObjectId(rq.params(":postID")));
+			post.setDepartingLocation(new Location(info.get("departure")));
+			post.setArrivingLocation(new Location(info.get("arriving")));
+//			post.setSeatsTaken(info.get("seats taken"));
+			post.setRideSeats(info.get("total seats"));
+			post.setPrice(info.get("cost"));
+			DatabaseConfig.instance.modifyDatabaseObject(post);
+			Map<String, Object> map = new HashMap<>();
+			map.put("post", post);
+			return null;
+		});
+
 
 		get("/posts/:postID/delete", (rq, rs) -> {
 			rs.redirect("/");
