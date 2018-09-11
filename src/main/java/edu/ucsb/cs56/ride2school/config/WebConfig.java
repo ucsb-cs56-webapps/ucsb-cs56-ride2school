@@ -91,8 +91,10 @@ public class WebConfig {
 						seats, seats);
 				DatabaseConfig.instance.addToDatabase(post);
 			} catch (Exception e) {
-				e.printStackTrace();
+				System.out.println("Improper Format");
+				rs.redirect("/form/posts");
 			}
+			rs.redirect("/");
 			return null;
 		});
 
@@ -120,7 +122,7 @@ public class WebConfig {
 		get("/posts/:postID/edit", (rq, rs) -> {
 			System.out.println("hi");
 			PostData post = DatabaseConfig.instance.getPostByID(new ObjectId(rq.params(":postID")));
-
+      DatabaseConfig.instance.modifyDatabaseObject(DatabaseConfig.instance.getPostByID(new ObjectId(rq.params(":postID"))));
 			Map<String, Object> map = new HashMap<>();
 			map.put("post", post);
 

@@ -3,13 +3,38 @@
 	{{> head }}
 	<body> {{> nav }}
   		<h2>Edit Your Post</h2>
+			<div align="center" class="panel-heading">
+				<h3 class="panel-title"> {{getTitle}}</h3>
+			</div>
 
-  		<form action="">
- 		<br>
-  		<input type="text" name="post" value= "testing {{post.getTitle}}">
-  		<br>
+  		<form method = "post" action="/posts/{{getID}}/edit">
+			Departing Location:<br>
+  		<input type="text" name="departure" value= "{{post.getDepartingLocation.getName}}">
+			<br><br>
+			Arriving Locaiton:<br>
+			<input type="text" name="arriving" value= "{{post.getArrivingLocation.getName}}">
+			<br><br>
+			Date and Time:<br>
+			<input type="text" name="time" value= "{{post.getDate}}">
+			<br><br>
+			Seats Taken:<br>
+			<input type="text" name="seats taken" value= "{{post.getSeatsTaken}}">
+			<br><br>
+			Total Seats:<br>
+			<input type="text" name="total seats" value= "{{post.getRideSeats}}">
+			<br><br>
+			Ride costs:<br>
+			<input type="text" name="cost" value= "{{post.Price}}">
+			<br><br>
+			Ride is from:
+			<input type="text" name="driver name" value= "{{post.getPoster.getName}}">
+			<br><br>
+			<button type="submit">Submit Changes</button>
+			<br>
+		</form>
 
-  		</form>
+		<p> If you click the "Submit" button, your post will be updated with the new information.
+
   	{{> bootstrap-from-cdn-body }}
 	</body>
 </html>
