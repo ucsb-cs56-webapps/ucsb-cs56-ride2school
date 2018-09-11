@@ -39,15 +39,29 @@ public class DatabaseConfig {
 		String hostName = System.getenv().get("HOST_");
 
 		String requestString = "mongodb://" + dbUser + ":" + dbPassword + "@d" + hostName + "/" + dbName;
-		System.out.println("Tried to connect using: " + requestString);
+
+		MongoClientURI uri = new MongoClientURI(requestString);
+		client = new MongoClient(uri);
+		db = client.getDatabase(uri.getDatabase());
+
+		// Test Connection Works
 		try {
-			MongoClientURI uri = new MongoClientURI(requestString);
-			client = new MongoClient(uri);
-			db = client.getDatabase(uri.getDatabase());
+			db.runCommand(new Document().append("connectionStatus", 1).append("showPrivileges", false));
 			System.out.println("Finished setting up Database");
-			
 		} catch (MongoTimeoutException e) {
+			/*
+			 * If you get this error make sure the env.sh file is set up
+			 * correctly
+			 * 
+			 * Correct Info:
+			 * 
+			 * export USER_=YOURUSERNAME export PASS_=YOURPASSWORD export
+			 * DB_NAME_=YOURDBNAME export HOST_=YOURHOSTURL
+			 * 
+			 */
 			System.err.println("Failed to connect to Database");
+			System.err.println("Tried connecting using: " + requestString);
+			System.exit(0);
 		}
 	}
 
@@ -57,6 +71,7 @@ public class DatabaseConfig {
 		client.close();
 	}
 
+	// Returns an ArrayList of all the posts
 	public ArrayList<PostData> getAllPosts() {
 		MongoCollection<Document> posts = db.getCollection("PostData");
 
@@ -69,6 +84,7 @@ public class DatabaseConfig {
 		return allPosts;
 	}
 
+	// Returns an ArrayList of all the users
 	public ArrayList<UserData> getAllUsers() {
 		MongoCollection<Document> users = db.getCollection("UserData");
 
@@ -81,6 +97,7 @@ public class DatabaseConfig {
 		return allUsers;
 	}
 
+	// Returns a post from database based upon id
 	public PostData getPostByID(ObjectId id) {
 		MongoCollection<Document> posts = db.getCollection("PostData");
 
@@ -93,6 +110,7 @@ public class DatabaseConfig {
 		return post;
 	}
 
+	// Returns a user from database based upon id
 	public UserData getUserByID(ObjectId id) {
 		MongoCollection<Document> users = db.getCollection("UserData");
 		UserData user = null;
@@ -102,6 +120,26 @@ public class DatabaseConfig {
 			System.out.println("User with ID: " + id + " no longer exists");
 		}
 		return user;
+	}
+
+	// Modifies an object in database
+	public void modifyDatabaseObject(StoreableData data) {
+		MongoCollection<Document> collection = db.getCollection(data.getCollectionName());
+		try {
+			collection.findOneAndUpdate(new Document("_id", data.getID()), data.convertToDocument());
+		} catch (Exception e) {
+			System.out.println("Object with ID: " + data.getID() + " no longer exists");
+		}
+	}
+
+	// Deletes an object from database
+	public void deleteDatabaseObject(StoreableData data) {
+		MongoCollection<Document> collection = db.getCollection(data.getCollectionName());
+		try {
+			collection.findOneAndDelete(new Document("_id", data.getID()));
+		} catch (Exception e) {
+			System.out.println("Object with ID: " + data.getID() + " no longer exists");
+		}
 	}
 
 	// Puts the data object into correct Database Collection
