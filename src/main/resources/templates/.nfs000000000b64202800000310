@@ -8,28 +8,21 @@
                 <div align="center" class="panel-heading">
                     <h3 class="panel-title"> {{getTitle}} </h3>
                 </div>
-                
-                	<form method="PUT" action="/posts/{{getID}}/edit">
+                	<form method="get" action="/form/post/{{getId}}/edit">
     			 		<button type="submit">Edit Post</button>
 					</form>
-					
-					<form method="DELETE" action="/posts/{{getID}}/delete">
-    			 		<button type="submit">Delete Post</button>
-					</form>
-					
-					<form method="GET" action="/posts/{{getID}}/view">
-    			 		<button type="submit">View Post</button>
-					</form>
-                    
                     <div align="center" class="panel-body">
                         Ride from {{getDepartingLocation.getName}} to {{getArrivingLocation.getName}}
                         <br> Ride is at {{getDate}}
-                        <br> There is {{getSeatsLeft}} out of {{getRideSeats}} seats left
+                        <br> There is {{getSeatsLeft}}/{{getRideSeats}} seats left
                         <br> Ride costs {{getPrice}}
                         <br> Ride is from {{getPoster.getName}}
                     </div>
                 </div>
+<<<<<<< HEAD
+=======
              </div>
+>>>>>>> e7d1ac08a162cc50dba5b6b54215c9180f7a0ded
         {{/posts}}
     {{> bootstrap-from-cdn-body }}
 	</body>

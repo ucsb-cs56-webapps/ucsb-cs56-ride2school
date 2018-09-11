@@ -1,27 +1,36 @@
 package edu.ucsb.cs56.ride2school.data;
 
-public class UserData {
+import org.bson.Document;
 
-	public UserData(String name, Long userId) {
+public class UserData extends StoreableData {
+
+	public UserData(String name) {
+		super("UserData");
 		this.name = name;
-		this.userId = userId;
+	}
+
+	public UserData(Document d) {
+		super("UserData", d);
 	}
 
 	private String name;
-	private Long userId;
-	
+
 	public String getName() {
 		return name;
 	}
+
 	public void setName(String name) {
 		this.name = name;
 	}
-	public Long getUserId() {
-		return userId;
+
+	@Override
+	public Document convertToDocument() {
+		return newDoc().append("name", name);
 	}
-	public void setUserId(Long userId) {
-		this.userId = userId;
+
+	@Override
+	public void convertFromDocument(Document d) {
+		this.name = d.getString("name");
 	}
-	
-	
+
 }
