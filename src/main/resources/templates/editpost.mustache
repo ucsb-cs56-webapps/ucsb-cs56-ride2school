@@ -4,10 +4,10 @@
 	<body> {{> nav }}
   		<h2>Edit Your Post</h2>
 			<div align="center" class="panel-heading">
-				<h3 class="panel-title"> {{getTitle}}</h3>
+				<h3 class="panel-title"> {{post.getTitle}}</h3>
 			</div>
 
-  		<form method = "post" action="/posts/{{getID}}/edit">
+  		<form method = "post" action="/posts/{{post.getID}}/edit">
 			Departing Location:<br>
   		<input type="text" name="departure" value= "{{post.getDepartingLocation.getName}}">
 			<br><br>
@@ -15,7 +15,7 @@
 			<input type="text" name="arriving" value= "{{post.getArrivingLocation.getName}}">
 			<br><br>
 			Date and Time:<br>
-			<input type="text" name="time" value= "{{post.getDate}}">
+			<input type="text" name="date" value= "{{post.getDate}}">
 			<br><br>
 			Seats Taken:<br>
 			<input type="text" name="seats taken" value= "{{post.getSeatsTaken}}">
@@ -25,9 +25,6 @@
 			<br><br>
 			Ride costs:<br>
 			<input type="text" name="cost" value= "{{post.Price}}">
-			<br><br>
-			Ride is from:
-			<input type="text" name="driver name" value= "{{post.getPoster.getName}}">
 			<br><br>
 			<button type="submit">Submit Changes</button>
 			<br>
