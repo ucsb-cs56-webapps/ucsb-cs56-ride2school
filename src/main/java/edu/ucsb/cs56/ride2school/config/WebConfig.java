@@ -72,32 +72,30 @@ public class WebConfig {
 		}, new MustacheTemplateEngine());
 
 		post("/posts/add", (rq, rs) -> {
-
-			String title = "";
-			Location departingLocation = null;
-			Location arrivingLocation = null;
-			Date date = null;
-			int seats = 0;
-			UserData poster = null;
-			try {
-				title = rq.params("title");
-				departingLocation = new Location(rq.params("departingLocation"));
-				arrivingLocation = new Location(rq.params("arrivingLocation"));
-				date = new Date(rq.params("date"));
-				seats = Integer.parseInt(rq.params("seats"));
-
-				ArrayList<UserData> users = DatabaseConfig.instance.getAllUsers();
-				poster = users.get(new Random().nextInt(users.size()));
-			} catch (Exception e) {
-				// TODO: handle exception
-			}
-
-			DatabaseConfig.instance.addToDatabase(new PostData(title, departingLocation, arrivingLocation, date, poster,
-					new Date(), 20.0, seats, seats));
-			System.out.println("Added new Post!");
-			rs.redirect("/posts/");
+			System.out.println(rq.toString());
 			return null;
-		}, new MustacheTemplateEngine());
+		});
+
+		/*
+		 * post("/posts/add", (rq, rs) -> {
+		 * 
+		 * String title = ""; Location departingLocation = null; Location
+		 * arrivingLocation = null; Date date = null; int seats = 0; UserData
+		 * poster = null; try { title = rq.params("title"); departingLocation =
+		 * new Location(rq.params("departingLocation")); arrivingLocation = new
+		 * Location(rq.params("arrivingLocation")); date = new
+		 * Date(rq.params("date")); seats =
+		 * Integer.parseInt(rq.params("seats"));
+		 * 
+		 * ArrayList<UserData> users = DatabaseConfig.instance.getAllUsers();
+		 * poster = users.get(new Random().nextInt(users.size())); } catch
+		 * (Exception e) { e.printStackTrace(); }
+		 * 
+		 * DatabaseConfig.instance.addToDatabase(new PostData(title,
+		 * departingLocation, arrivingLocation, date, poster, new Date(), 20.0,
+		 * seats, seats)); System.out.println("Added new Post!");
+		 * rs.redirect("/posts/"); return null; });
+		 */
 
 		get("/posts/:postID/edit", (rq, rs) -> {
 			System.out.println("hi");
