@@ -1,6 +1,8 @@
 package edu.ucsb.cs56.ride2school.config;
 
 import static spark.Spark.get;
+import static spark.Spark.put;
+import static spark.Spark.delete;
 
 import java.util.HashMap;
 import java.util.List;
@@ -63,7 +65,8 @@ public class WebConfig {
 			return new ModelAndView(map, "post.mustache");
 		}, new MustacheTemplateEngine());
 
-		get("/form/post/:postID/edit", (rq, rs) -> {
+		get("/posts/:postID/edit", (rq, rs) -> {
+			System.out.println("hi");
 			PostData post = DatabaseConfig.instance.getPostByID(new ObjectId(rq.params(":postID")));
 
 			Map<String, Object> map = new HashMap<>();
@@ -71,8 +74,19 @@ public class WebConfig {
 
 			return new ModelAndView(map, "editpost.mustache");
 		}, new MustacheTemplateEngine());
-		
-		get("/form/post/:postID/", (rq, rs) -> {
+
+		get("/posts/:postID/delete", (rq, rs) -> {
+			try
+			{
+			DatabaseConfig.instance
+					.deleteDatabaseObject(DatabaseConfig.instance.getPostByID(new ObjectId(rq.params(":postID"))));
+			} finally {
+			rs.redirect("/");
+			}
+			return "<h2> Post DELETED <h2>";
+		});
+
+		get("/posts/:postID/view", (rq, rs) -> {
 			PostData post = DatabaseConfig.instance.getPostByID(new ObjectId(rq.params(":postID")));
 
 			Map<String, Object> map = new HashMap<>();

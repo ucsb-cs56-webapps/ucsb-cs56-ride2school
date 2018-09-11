@@ -8,9 +8,19 @@
                 <div align="center" class="panel-heading">
                     <h3 class="panel-title"> {{getTitle}} </h3>
                 </div>
-                	<form method="get" action="/form/post/{{getID}}/edit">
+                
+                	<form method="PUT" action="/posts/{{getID}}/edit">
     			 		<button type="submit">Edit Post</button>
 					</form>
+					
+					<form method="DELETE" action="/posts/{{getID}}/delete">
+    			 		<button type="submit">Delete Post</button>
+					</form>
+					
+					<form method="GET" action="/posts/{{getID}}/view">
+    			 		<button type="submit">View Post</button>
+					</form>
+                    
                     <div align="center" class="panel-body">
                         Ride from {{getDepartingLocation.getName}} to {{getArrivingLocation.getName}}
                         <br> Ride is at {{getDate}}

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+	{{> head }}
+	<body> {{> nav }}
+  		<h2>Are you sure you want to delete this post</h2>
+  			<div align="center" class="panel-heading">
+                <h3 class="panel-title"> {{getTitle}} </h3>
+            </div>
+            <form method="get" action="/form/post/{{getID}}/delete/confirm">
+           		<input type="boolean" name="confirm"/>
+    			<button type="submit">YES!</button>
+			</form>
+			
+			<form method="get" action="/">
+    			<button type="submit">NO</button>
+			</form>
+  	{{> bootstrap-from-cdn-body }}
+	</body>
+</html>
