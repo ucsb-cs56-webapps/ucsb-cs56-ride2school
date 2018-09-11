@@ -72,7 +72,7 @@ public class WebConfig {
 		}, new MustacheTemplateEngine());
 
 		post("/posts/add", (rq, rs) -> {
-			System.out.println(rq.toString());
+			System.out.println(rq.attributes());
 			return null;
 		});
 
