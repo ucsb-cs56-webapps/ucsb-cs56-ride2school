@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import javax.swing.plaf.synth.SynthSeparatorUI;
+
 import org.bson.types.ObjectId;
 
 import Util.RandomPost;
@@ -92,7 +94,7 @@ public class WebConfig {
 
 			DatabaseConfig.instance.addToDatabase(new PostData(title, departingLocation, arrivingLocation, date, poster,
 					new Date(), 20.0, seats, seats));
-
+			System.out.println("Added new Post!");
 			rs.redirect("/posts/");
 			return null;
 		}, new MustacheTemplateEngine());
