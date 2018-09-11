@@ -83,7 +83,7 @@ public class WebConfig {
 				String title = info.get("title");
 				Location departingLocation = new Location(info.get("departingLocation"));
 				Location arrivingLocation = new Location(info.get("arrivingLocation"));
-				SimpleDateFormat format = new SimpleDateFormat("MMMM d, yyyy", Locale.ENGLISH);
+				SimpleDateFormat format = new SimpleDateFormat("MM-dd-yyyy", Locale.ENGLISH);
 				Date date = format.parse(info.get("date"));
 				int seats = Integer.parseInt(info.get("seats"));
 
