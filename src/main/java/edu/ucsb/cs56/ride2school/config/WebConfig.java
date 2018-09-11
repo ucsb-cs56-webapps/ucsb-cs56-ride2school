@@ -1,18 +1,22 @@
 package edu.ucsb.cs56.ride2school.config;
 
 import static spark.Spark.get;
-import static spark.Spark.put;
-import static spark.Spark.delete;
+import static spark.Spark.post;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import org.bson.types.ObjectId;
 
 import Util.RandomPost;
 import Util.RandomUser;
+import edu.ucsb.cs56.ride2school.data.Location;
 import edu.ucsb.cs56.ride2school.data.PostData;
+import edu.ucsb.cs56.ride2school.data.UserData;
 import spark.ModelAndView;
 import spark.template.mustache.MustacheTemplateEngine;
 
@@ -65,6 +69,34 @@ public class WebConfig {
 			return new ModelAndView(map, "post.mustache");
 		}, new MustacheTemplateEngine());
 
+		post("/posts/add", (rq, rs) -> {
+
+			String title = "";
+			Location departingLocation = null;
+			Location arrivingLocation = null;
+			Date date = null;
+			int seats = 0;
+			UserData poster = null;
+			try {
+				title = rq.params("title");
+				departingLocation = new Location(rq.params("departingLocation"));
+				arrivingLocation = new Location(rq.params("arrivingLocation"));
+				date = new Date(rq.params("date"));
+				seats = Integer.parseInt(rq.params("seats"));
+
+				ArrayList<UserData> users = DatabaseConfig.instance.getAllUsers();
+				poster = users.get(new Random().nextInt(users.size()));
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+
+			DatabaseConfig.instance.addToDatabase(new PostData(title, departingLocation, arrivingLocation, date, poster,
+					new Date(), 20.0, seats, seats));
+
+			rs.redirect("/posts/");
+			return null;
+		}, new MustacheTemplateEngine());
+
 		get("/posts/:postID/edit", (rq, rs) -> {
 			System.out.println("hi");
 			PostData post = DatabaseConfig.instance.getPostByID(new ObjectId(rq.params(":postID")));
@@ -80,7 +112,7 @@ public class WebConfig {
 			try {
 				DatabaseConfig.instance
 						.deleteDatabaseObject(DatabaseConfig.instance.getPostByID(new ObjectId(rq.params(":postID"))));
-			} catch(Exception e) {
+			} catch (Exception e) {
 				// USER clicked button twice while other was deleting
 			}
 			return "<h2> Post DELETED <h2>";
