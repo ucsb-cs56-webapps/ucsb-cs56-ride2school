@@ -91,8 +91,10 @@ public class WebConfig {
 						seats, seats);
 				DatabaseConfig.instance.addToDatabase(post);
 			} catch (Exception e) {
-				e.printStackTrace();
+				System.out.println("Improper Format");
+				rs.redirect("/form/posts");
 			}
+			rs.redirect("/");
 			return null;
 		});
 
