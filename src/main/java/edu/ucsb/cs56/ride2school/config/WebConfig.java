@@ -22,6 +22,8 @@ import edu.ucsb.cs56.ride2school.data.UserData;
 import spark.ModelAndView;
 import spark.template.mustache.MustacheTemplateEngine;
 
+import org.bson.Document;
+
 public class WebConfig {
 
 	private boolean testingMode = true;
@@ -135,13 +137,16 @@ public class WebConfig {
 			post.setDepartingLocation(new Location(info.get("departure")));
 			post.setArrivingLocation(new Location(info.get("arriving")));
 		//	post.setDate(info.get("date"));
-			post.setSeatsTaken(info.get("seats taken"));
-			post.setRideSeats(info.get("total seats"));
-			post.setPrice(info.get("cost"));
+			post.setSeatsTaken(Integer.parseInt(info.get("seats taken")));
+			post.setRideSeats(Integer.parseInt(info.get("total seats")));
+			post.setPrice(Double.parseDouble(info.get("cost")));
 			DatabaseConfig.instance.modifyDatabaseObject(post);
-			Map<String, Object> map = new HashMap<>();
-			map.put("post", post);
-			return null;
+			System.out.println("hello");
+
+			rs.redirect("/posts/"+ post.getID()+"/view");
+			System.out.println("sup");
+
+			return new Document().append("auth","OK");
 		});
 
 
