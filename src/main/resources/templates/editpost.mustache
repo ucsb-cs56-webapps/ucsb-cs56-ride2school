@@ -7,7 +7,7 @@
 				<h3 class="panel-title"> {{post.getTitle}}</h3>
 			</div>
 
-  		<form method = "post" action="/posts/{{post.getID}}/view">
+  		<form method = "post" action="/posts/{{post.getID}}/edit">
 			Departing Location:<br>
   		<input type="text" name="departure" value= "{{post.getDepartingLocation.getName}}">
 			<br><br>
@@ -30,7 +30,7 @@
 			<br>
 		</form>
 
-		<p> If you click the "Submit Changes" button, your post will be updated with the new information.
+		<p> If you click the "Submit" button, your post will be updated with the new information.
 
   	{{> bootstrap-from-cdn-body }}
 	</body>

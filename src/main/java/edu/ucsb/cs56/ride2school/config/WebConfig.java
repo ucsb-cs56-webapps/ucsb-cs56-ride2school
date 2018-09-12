@@ -39,7 +39,7 @@ public class WebConfig {
 	}
 
 	private void newUsers() {
-		int minUsers = 50;
+		int minUsers = 60;
 		System.out.println("Generating Random Users");
 		while (DatabaseConfig.instance.getAllUsers().size() < minUsers) {
 			DatabaseConfig.instance.addToDatabase(RandomUser.createRandomUser());
@@ -48,7 +48,7 @@ public class WebConfig {
 	}
 
 	private void newPosts() {
-		int minPosts = 50;
+		int minPosts = 60;
 		System.out.println("Generating Random Posts");
 		while (DatabaseConfig.instance.getAllPosts().size() < minPosts) {
 			DatabaseConfig.instance.addToDatabase(RandomPost.createRandomPost(100.00, 12));
@@ -182,9 +182,11 @@ public class WebConfig {
 			return new ModelAndView(map, "signup.mustache");
 		}, new MustacheTemplateEngine());
 		post("/signup/newUser", (rq, rs) ->{
-			
-		})
-
-
+			Map<String, String> info = rq.params();
+			UserData newUser = new UserData(info.get("name"),info.get("psw"));
+			DatabaseConfig.instance.addToDatabase(newUser);
+			rs.redirect("/login");
+			return null;
+		});
 	}
 }

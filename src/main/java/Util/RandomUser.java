@@ -16,9 +16,9 @@ public class RandomUser {
 			"Dorothy", "Lisa", "Nancy", "Karen", "Betty", "Hellen", "Sandra");
 
 	public static UserData createRandomUser() {
-		// Create a new UserData object from the randomly generated name and
+		// Create a new UserData object from the randomly generated name and set password.
 		char lastNameCharacter = (char) Character.toUpperCase(rand.nextInt(26) + 'a');
 		return new UserData(
-				FIRST_NAMES_LIST.get(rand.nextInt(FIRST_NAMES_LIST.size())) + " " + lastNameCharacter + ".");
+				FIRST_NAMES_LIST.get(rand.nextInt(FIRST_NAMES_LIST.size())) + " " + lastNameCharacter + ".", "pass");
 	}
 }
