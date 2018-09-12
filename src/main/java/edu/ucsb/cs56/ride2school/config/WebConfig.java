@@ -51,7 +51,7 @@ public class WebConfig {
 		int minPosts = 60;
 		System.out.println("Generating Random Posts");
 		while (DatabaseConfig.instance.getAllPosts().size() < minPosts) {
-			DatabaseConfig.instance.addToDatabase(RandomPost.createRandomPost(100.00, 12));
+			DatabaseConfig.instance.addToDatabase(RandomPost.createRandomPost(100.00, 4));
 		}
 		System.out.println("Done Generating Random Posts");
 	}
@@ -61,7 +61,7 @@ public class WebConfig {
 			Map<String, Object> map = new HashMap<>();
 
 			List<PostData> posts = DatabaseConfig.instance.getAllPosts();
-			posts.sort((p1, p2) -> p1.getLastUpdate().compareTo(p2.getLastUpdate()));
+			posts.sort((p1, p2) -> p2.getLastUpdate().compareTo(p1.getLastUpdate()));
 
 			map.put("posts", posts);
 

@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
+import java.lang.Math;
 
 import edu.ucsb.cs56.ride2school.config.DatabaseConfig;
 import edu.ucsb.cs56.ride2school.data.Location;
@@ -38,7 +39,8 @@ public class RandomPost {
 
 		Date lastUpdate = new Date(System.currentTimeMillis());
 
-		double price = rand.nextDouble() * maxPrice;
+		double price = Math.round(rand.nextDouble() * maxPrice * 100) / 100.0;
+
 		int rideSeats = rand.nextInt(maxSeats) + 1;
 		int seatsTaken = rand.nextInt(rideSeats);
 
