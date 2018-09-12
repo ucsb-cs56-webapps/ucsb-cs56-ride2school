@@ -122,7 +122,6 @@ public class WebConfig {
 		 */
 
 		get("/posts/:postID/edit", (rq, rs) -> {
-			System.out.println("hi");
 			PostData post = DatabaseConfig.instance.getPostByID(new ObjectId(rq.params(":postID")));
     	Map<String, Object> map = new HashMap<>();
 			map.put("post", post);
@@ -131,6 +130,7 @@ public class WebConfig {
 		}, new MustacheTemplateEngine());
 
 		post("/posts/:postID/edit", (rq, rs) -> {
+			System.out.println("hi");
 			System.out.println(rq.body());
 			Map<String, String> info = rq.params();
 			PostData post = DatabaseConfig.instance.getPostByID(new ObjectId(rq.params(":postID")));
@@ -141,11 +141,10 @@ public class WebConfig {
 			post.setRideSeats(Integer.parseInt(info.get("total seats")));
 			post.setPrice(Double.parseDouble(info.get("cost")));
 			DatabaseConfig.instance.modifyDatabaseObject(post);
-			System.out.println("hello");
 
+			System.out.println("hello");
 			rs.redirect("/posts/"+ post.getID()+"/view");
 			System.out.println("sup");
-
 			return new Document().append("auth","OK");
 		});
 
