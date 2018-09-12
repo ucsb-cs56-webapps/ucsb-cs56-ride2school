@@ -173,5 +173,9 @@ public class WebConfig {
 			Map<String, Object> map = new HashMap<>();
 			return new ModelAndView(map, "login.mustache");
 		}, new MustacheTemplateEngine());
+		get("/signup", (rq, rs) -> {
+			Map<String, Object> map = new HashMap<>();
+			return new ModelAndView(map, "signup.mustache");
+		}, new MustacheTemplateEngine());
 	}
 }
