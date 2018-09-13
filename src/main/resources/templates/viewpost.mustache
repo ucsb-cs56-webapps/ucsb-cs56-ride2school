@@ -1,9 +1,37 @@
 <!DOCTYPE html>
 <html>
 	{{> head }}
+	
 	<body> {{> nav }}
   		<h2>View Your Post</h2>
 
+		<!-- Shows the map of locations of departure and arrival  -->
+		<div id="map"></div>
+		
+		
+
+		<script>
+			// Initialize and add the map
+			function initMap() {
+			// The location of arrival
+				var arrival = {lat: 34.4140, lng: -119.8489};
+			// The location of departure
+				var departure = {lat: 34.0522 lng: -118.2436};
+			// The center location:CA
+				var ca = {lat: 36.7782 lng: -119.4179};
+			// The map, centered at Uluru
+				map = new google.maps.Map(
+				document.getElementById('map'), {zoom: 10, center: departure});
+			// The marker, positioned at departure and arrival
+				var departMarker = new google.maps.Marker({position: departure, map: map});
+				var arrivMarker = new google.maps.Marker({position: arrival, map: map});
+			}
+
+		</script>
+		<script async defer
+    	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCAZDO5rZ1Gimd1_L8pOwdMVDyYLoFJ45E&callback=initMap">
+    	</script>
+		
   		<form action="">
  		<br>
   		<input type="text" name="post" value= "testing {{post.getTitle}}">
