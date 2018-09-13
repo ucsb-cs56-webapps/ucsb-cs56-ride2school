@@ -187,17 +187,21 @@ public class WebConfig {
 			rs.redirect("/login");
 			return null;
 		});
+		//This route is a stub for testing authentication
+		get("/login/authentication/authenticated", (rq,rs) -> {
+			Map<String, Object> map = new HashMap<>();
+			return new ModelAndView(map, "authenticated.mustache");
+		}, new MustacheTemplateEngine());
 		post("/login/authentication", (rq, rs) ->{
 			ArrayList<UserData> users = DatabaseConfig.instance.getAllUsers();
 			String enteredName = rq.queryParams("username");
 			String enteredPassword = rq.queryParams("password");
 			UserData user = DatabaseConfig.instance.getUserByName(enteredName, users);
 			if(user.getTempPassword() == enteredPassword){
-				rs.redirect("/");
-				return null;
+				
 			}
 			else{
-				rs.redirect("/login");
+				rs.redirect("/login/authentication/authenticated");
 			}
 			return null;
 		});
