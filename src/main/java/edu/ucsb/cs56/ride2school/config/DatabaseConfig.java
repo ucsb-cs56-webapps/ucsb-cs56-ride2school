@@ -97,6 +97,20 @@ public class DatabaseConfig {
 		return allUsers;
 	}
 
+	// Returns a user from arraylist
+	public UserData getUserByName(String name, ArrayList<UserData> users) {
+		System.out.println("Searching for: " + name);
+		for(UserData user : users){
+			System.out.println("Comparing " + "\"" + name  + "\"" + " with " + "\"" + user.getName() + "\"");
+		    if(user.getName().equals(name)){
+		    	System.out.println("Name found!");
+		    	return user;
+		    }
+		}
+		return null;
+
+	}
+
 	// Returns a post from database based upon id
 	public PostData getPostByID(ObjectId id) {
 		MongoCollection<Document> posts = db.getCollection("PostData");
@@ -147,5 +161,7 @@ public class DatabaseConfig {
 		MongoCollection<Document> collection = db.getCollection(data.getCollectionName());
 		collection.insertOne(data.convertToDocument());
 	}
+
+	
 
 }

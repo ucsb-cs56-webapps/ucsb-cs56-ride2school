@@ -94,7 +94,7 @@ public class WebConfig {
 				DatabaseConfig.instance.addToDatabase(post);
 			} catch (Exception e) {
 				System.out.println("Improper Format");
-				rs.redirect("/form/posts");
+				rs.redirect("/form/post");
 			}
 			rs.redirect("/");
 			return null;
@@ -182,10 +182,23 @@ public class WebConfig {
 			return new ModelAndView(map, "signup.mustache");
 		}, new MustacheTemplateEngine());
 		post("/signup/newUser", (rq, rs) ->{
-			Map<String, String> info = rq.params();
-			UserData newUser = new UserData(info.get("name"),info.get("psw"));
+			UserData newUser = new UserData(rq.queryParams("name"),rq.queryParams("tempPassword"));
 			DatabaseConfig.instance.addToDatabase(newUser);
 			rs.redirect("/login");
+			return null;
+		});
+		post("/login/authentication", (rq, rs) ->{
+			ArrayList<UserData> users = DatabaseConfig.instance.getAllUsers();
+			String enteredName = rq.queryParams("username");
+			String enteredPassword = rq.queryParams("password");
+			UserData user = DatabaseConfig.instance.getUserByName(enteredName, users);
+			if(user.getTempPassword() == enteredPassword){
+				rs.redirect("/");
+				return null;
+			}
+			else{
+				rs.redirect("/login");
+			}
 			return null;
 		});
 	}
