@@ -3,9 +3,6 @@ Facebook Rideshare
 
 A rideshare group app.
 
-# A Little suggestion here (from your mentor)
-Hi since the goal for this project is to write a minimum viable product, I would suggest focusing on the issues that is fundamental to the project (such as usable a database and a good-looking UI). And after you have decided which issues you will be working on, please let me know by adding some comments under that issue. Thank you.
-
 website: https://ride2school.herokuapp.com/
 
 MVP
@@ -60,7 +57,7 @@ export HOST_=<your host name>
 __!!! IMPORTANT !!!__
 You must run the following command in terminal every session. Without this there will be an error!
 
-__Using Heroku (optional)__
+__Using Heroku (optional, currently not working fix that for 100 pts)__
 
 If you are using heroku follow these steps:
 
@@ -80,10 +77,3 @@ __Final Notes__
 
 Now your program should be up and running! If you did anything in this step wrong, there should be an error when running the project with debug information. Have fun and catch those rides!
 
-**_M18 Final Remarks_**
-Hello! Welcome to Ride2School. The original vision for this project was to be able to scrape information from the various Facebook RideShare groups and condense it into one feed. As of now, we have an independent site that can post/request rides. Our database is set up to hold information on users and posts and the site has "Administrator view." Some things you may want to work on is creating user profiles and implementing a search feature. We do have one bug where posts will be accidentally deleted twice. An opportunity for refactoring is to word on the /edit page. Though it updates posts, it redirects to the wrong page. Good luck!
-
-
-#
-Hi this is your mentor Derek, this is gonna be a pretty tough project given the very limited time and the complexity of frameworks. So if guys need help with your projects/labs feel free to send me an email. Or you can arrange an appointment with me on Tuesday anytime in the afternoon (except 2:00 - 3:30). 
-email:guancheng_ren@umail.ucsb.edu
