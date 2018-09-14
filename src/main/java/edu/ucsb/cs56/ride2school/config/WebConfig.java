@@ -132,6 +132,9 @@ public class WebConfig {
 		}, new MustacheTemplateEngine());
 
 		post("/posts/:postID/edit", (rq, rs) -> {
+			System.out.println("path: " + rq.pathInfo());
+
+			System.out.println("rq.params() list: " + rq.queryParams());
 			System.out.println("Editing function...");
 			System.out.println("rq.body(): " + rq.body());
 			System.out.println("rq.params(): " + rq.params());
