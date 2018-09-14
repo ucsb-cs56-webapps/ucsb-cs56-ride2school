@@ -1,4 +1,4 @@
-package Util;
+package edu.ucsb.cs56.ride2school.util;
 
 import java.util.Arrays;
 import java.util.List;
