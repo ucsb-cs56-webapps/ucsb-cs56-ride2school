@@ -3,6 +3,9 @@ Facebook Rideshare
 
 A rideshare group app.
 
+# A Little suggestion here (from your mentor)
+Hi since the goal for this project is to write a minimum viable product, I would suggest focusing on the issues that is fundamental to the project (such as usable a database and a good-looking UI). And after you have decided which issues you will be working on, please let me know by adding some comments under that issue. Thank you.
+
 website: https://ride2school.herokuapp.com/
 
 MVP
