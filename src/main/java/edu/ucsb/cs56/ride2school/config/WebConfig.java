@@ -170,7 +170,7 @@ public class WebConfig {
 			post.setLastUpdate(new Date());
 			System.out.println("Document after setting: " + post.convertToDocument());
 			
-			// GTo do: get this modifyDatabaseObject method working instead of deleting and readding.
+			// To do: get this modifyDatabaseObject method working instead of deleting and readding.
 			// DatabaseConfig.instance.modifyDatabaseObject(post);
 
 			System.out.println("deleting");
