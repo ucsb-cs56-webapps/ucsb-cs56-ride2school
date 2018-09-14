@@ -1,73 +1,56 @@
 <!DOCTYPE html>
 <html>
-{{> head }}
-<body>
- {{> nav }}
- 
- <h1>Post</h1>
-
-  <div class="container">
-    <form class="form-horizontal" action="/action_page.php">
-    <fieldset>
-    <legend>Ride Information</legend>
-
-    <div class="form-group">
-      <label class="control-label col-sm-2">Title:</label>
-      <div class="col-sm-3">
-        <input type="text" class="form-control" id="location" placeholder="Enter a title for the ride" name="location">
-      </div>
-    </div>
-
-    <div class="form-group">
-      <label class="control-label col-sm-2">From:</label>
-      <div class="col-sm-5">
-        <input type="text" class="form-control" id="location" placeholder="Enter location" name="location">
-      </div>
-    </div>
-
-
-    <div class="form-group">
-      <label class="control-label col-sm-2">To:</label>
-      <div class="col-sm-5">          
-        <input type="text" class="form-control" id="destination" placeholder="Enter destination" name="destination">
-      </div>
-    </div>
-  
-    
-    
-    
-    <div class="form-group">
-    <label class="control-label col-sm-2">Date and Time:</label>
-    <div class="col-sm-offset-0 col-sm-3">
-                <div class='input-group date' id='datetimepicker1'>
-                    <input type='text' class="form-control" placeholder="mm-dd-yyyy"/>
-                    <span class="input-group-addon">
-                        <span class="glyphicon glyphicon-calendar"></span>
-                    </span>
-                </div>
-                </div>
+   {{> head }}
+   <body>
+      {{> nav }}
+      <h1>Post</h1>
+      <div class="container">
+         <form class="form-horizontal" method="POST" action="/posts/add">
+            <fieldset>
+            <legend>Ride Information</legend>
+            <div class="form-group">
+               <label class="control-label col-sm-2">Title:</label>
+               <div class="col-sm-3">
+                  <input type="text" class="form-control" id="title" placeholder="Enter a title for the ride" name="title">
+               </div>
             </div>
-
-    <div class="form-group">
-      <label class="control-label col-sm-2">Seats Available: </label>
-      <div class="col-sm-1">
-        <input type="text" class="form-control" id="location" placeholder="#" name="location">
+            <div class="form-group">
+               <label class="control-label col-sm-2">From:</label>
+               <div class="col-sm-5">
+                  <input type="text" class="form-control" id="departingLocation" placeholder="Enter location" name="departingLocation">
+               </div>
+            </div>
+            <div class="form-group">
+               <label class="control-label col-sm-2">To:</label>
+               <div class="col-sm-5">          
+                  <input type="text" class="form-control" id="arrivingLocation" placeholder="Enter destination" name="arrivingLocation"">
+               </div>
+            </div>
+            <div class="form-group">
+               <label class="control-label col-sm-2">Date and Time:</label>
+               <div class="col-sm-offset-0 col-sm-3">
+                  <div class='input-group date' id='datepicker'>
+                     <input type='text' class="form-control" id="date" placeholder="mm-dd-yyyy" name="date"/>
+                     <span class="input-group-addon">
+                     <span class="glyphicon glyphicon-calendar"></span>
+                     </span>
+                  </div>
+               </div>
+            </div>
+            <div class="form-group">
+               <label class="control-label col-sm-2">Seats Available: </label>
+               <div class="col-sm-1">
+                  <input type="text" class="form-control" id="seats" placeholder="#" name="seats">
+               </div>
+            </div>
+            <div class="form-group">
+               <div class="col-sm-offset-2 col-sm-10">
+                  <button type="submit" class="btn btn-default">Submit</button>
+               </div>
+            </div>
+            <fieldset>
+         </form>
       </div>
-    </div>
-            
-   <div class="form-group">        
-      <div class="col-sm-offset-2 col-sm-10">
-        <button type="submit" class="btn btn-default">Submit</button>
-      </div>
-    </div>
-    <fieldset>
-  </form>
-</div>
-
-
- 
-     
-
- {{> bootstrap-from-cdn-body }}
-</body>
+      {{> bootstrap-from-cdn-body }}
+   </body>
 </html>

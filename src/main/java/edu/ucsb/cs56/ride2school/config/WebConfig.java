@@ -1,20 +1,29 @@
 package edu.ucsb.cs56.ride2school.config;
 
 import static spark.Spark.get;
-import static spark.Spark.put;
-import static spark.Spark.delete;
+import static spark.Spark.post;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.TreeMap;
+import java.util.Random;
 
 import org.bson.types.ObjectId;
 
 import Util.RandomPost;
 import Util.RandomUser;
+import edu.ucsb.cs56.ride2school.data.Location;
 import edu.ucsb.cs56.ride2school.data.PostData;
+import edu.ucsb.cs56.ride2school.data.UserData;
 import spark.ModelAndView;
 import spark.template.mustache.MustacheTemplateEngine;
+
+import org.bson.Document;
 
 public class WebConfig {
 
@@ -31,7 +40,7 @@ public class WebConfig {
 	}
 
 	private void newUsers() {
-		int minUsers = 50;
+		int minUsers = 60;
 		System.out.println("Generating Random Users");
 		while (DatabaseConfig.instance.getAllUsers().size() < minUsers) {
 			DatabaseConfig.instance.addToDatabase(RandomUser.createRandomUser());
@@ -40,10 +49,10 @@ public class WebConfig {
 	}
 
 	private void newPosts() {
-		int minPosts = 50;
+		int minPosts = 60;
 		System.out.println("Generating Random Posts");
 		while (DatabaseConfig.instance.getAllPosts().size() < minPosts) {
-			DatabaseConfig.instance.addToDatabase(RandomPost.createRandomPost(100.00, 12));
+			DatabaseConfig.instance.addToDatabase(RandomPost.createRandomPost(100.00, 4));
 		}
 		System.out.println("Done Generating Random Posts");
 	}
@@ -53,7 +62,7 @@ public class WebConfig {
 			Map<String, Object> map = new HashMap<>();
 
 			List<PostData> posts = DatabaseConfig.instance.getAllPosts();
-			posts.sort((p1, p2) -> p1.getLastUpdate().compareTo(p2.getLastUpdate()));
+			posts.sort((p1, p2) -> p2.getLastUpdate().compareTo(p1.getLastUpdate()));
 
 			map.put("posts", posts);
 
@@ -65,22 +74,141 @@ public class WebConfig {
 			return new ModelAndView(map, "post.mustache");
 		}, new MustacheTemplateEngine());
 
-		get("/posts/:postID/edit", (rq, rs) -> {
-			System.out.println("hi");
-			PostData post = DatabaseConfig.instance.getPostByID(new ObjectId(rq.params(":postID")));
+		post("/posts/add", (rq, rs) -> {
+			System.out.println(rq.body());
 
-			Map<String, Object> map = new HashMap<>();
+			ArrayList<UserData> users = DatabaseConfig.instance.getAllUsers();
+			UserData poster = users.get(new Random().nextInt(users.size()));
+
+			try {
+				Map<String, String> info = rq.params();
+
+				String title = info.get("title");
+				Location departingLocation = new Location(info.get("departingLocation"));
+				Location arrivingLocation = new Location(info.get("arrivingLocation"));
+				SimpleDateFormat format = new SimpleDateFormat("MM-dd-yyyy", Locale.ENGLISH);
+				Date date = format.parse(info.get("date"));
+				int seats = Integer.parseInt(info.get("seats"));
+
+				PostData post = new PostData(title, departingLocation, arrivingLocation, date, poster, new Date(), 20.0,
+						seats, seats);
+				DatabaseConfig.instance.addToDatabase(post);
+			} catch (Exception e) {
+				System.out.println("Improper Format");
+				rs.redirect("/form/post");
+			}
+			rs.redirect("/");
+			return null;
+		});
+
+		/*
+		 * post("/posts/add", (rq, rs) -> {
+		 *
+		 * String title = ""; Location departingLocation = null; Location
+		 * arrivingLocation = null; Date date = null; int seats = 0; UserData
+		 * poster = null; try { title = rq.params("title"); departingLocation =
+		 * new Location(rq.params("departingLocation")); arrivingLocation = new
+		 * Location(rq.params("arrivingLocation")); date = new
+		 * Date(rq.params("date")); seats =
+		 * Integer.parseInt(rq.params("seats"));
+		 *
+		 * ArrayList<UserData> users = DatabaseConfig.instance.getAllUsers();
+		 * poster = users.get(new Random().nextInt(users.size())); } catch
+		 * (Exception e) { e.printStackTrace(); }
+		 *
+		 * DatabaseConfig.instance.addToDatabase(new PostData(title,
+		 * departingLocation, arrivingLocation, date, poster, new Date(), 20.0,
+		 * seats, seats)); System.out.println("Added new Post!");
+		 * rs.redirect("/posts/"); return null; });
+		 */
+
+		get("/posts/:postID/edit", (rq, rs) -> {
+			System.out.println("yo");
+			PostData post = DatabaseConfig.instance.getPostByID(new ObjectId(rq.params(":postID")));
+    		Map<String, Object> map = new HashMap<>();
 			map.put("post", post);
 
 			return new ModelAndView(map, "editpost.mustache");
 		}, new MustacheTemplateEngine());
+
+		post("/posts/:postID/edit", (rq, rs) -> {
+			System.out.println("path: " + rq.pathInfo());
+
+			System.out.println("rq.params() list: " + rq.queryParams());
+			System.out.println("Editing function...");
+			System.out.println("rq.body(): " + rq.body());
+			System.out.println("rq.params(): " + rq.params());
+			System.out.println("rq.queryParams(): " + rq.queryParams());
+			System.out.println("rq.queryParams(seatstaken): " + rq.queryParams("seatstaken"));
+			
+			Map<String, String> info = rq.params();
+
+			Map<String, String> reversedMap = new TreeMap<String, String>(info);
+
+			//then you just access the reversedMap however you like...
+			System.out.println("map size (num parameters): " + info.size());
+			for (Map.Entry entry : reversedMap.entrySet()) {
+				System.out.println(entry.getKey() + ", " + entry.getValue());
+			}
+
+
+
+			System.out.println("Getting post by ID...");
+			PostData post = DatabaseConfig.instance.getPostByID(new ObjectId(rq.params(":postID")));
+
+			System.out.println("Converted document before updating values with set: " + post.convertToDocument());
+
+
+			post.setDepartingLocation(new Location(info.get("departure")));
+			System.out.println("new set departing location: " + post.getDepartingLocation());
+
+
+			post.setArrivingLocation(new Location(info.get("arriving")));
+			System.out.println("new set arriving location: " + post.getArrivingLocation());
+
+		//	post.setDate(info.get("date"));
+
+			//System.out.println("Seats taken: " + rq.body().getElementById("seatstaken"));
+			//System.out.println("Seats taken: " + rq.body.seatstaken);
+			//System.out.println("Seats taken: " + info.get("seatstaken"));
+			
+			System.out.println("setting seats taken...");
+			//post.setSeatsTaken(Integer.parseInt(rq.queryParams("seatstaken")));
+			System.out.println("Checking value of seats taken in post: " + post.getSeatsTaken());
+			
+			//post.setSeatsTaken(Integer.parseInt(info.get("seatstaken")));
+			//post.setRideSeats(Integer.parseInt(info.get("totalseats")));
+			System.out.println("hi7");
+			//post.setPrice(Double.parseDouble(info.get("cost")));
+
+			System.out.println("Document after setting: " + post.convertToDocument());
+			
+			//DatabaseConfig.instance.modifyDatabaseObject(post);
+
+			//System.out.println("hello");
+			//rs.redirect("/posts/"+ post.getID()+"/view");
+			//System.out.println("sup");
+
+			System.out.println("deleting");
+
+			DatabaseConfig.instance.deleteDatabaseObject(post);
+
+			System.out.println("readding");
+
+			DatabaseConfig.instance.addToDatabase(post);
+
+			rs.redirect("/");
+
+			return new Document().append("auth","OK");
+		});
+
 
 		get("/posts/:postID/delete", (rq, rs) -> {
 			rs.redirect("/");
 			try {
 				DatabaseConfig.instance
 						.deleteDatabaseObject(DatabaseConfig.instance.getPostByID(new ObjectId(rq.params(":postID"))));
-			} catch(Exception e) {
+			} catch (Exception e) {
 				// USER clicked button twice while other was deleting
 			}
 			return "<h2> Post DELETED <h2>";
@@ -99,5 +227,37 @@ public class WebConfig {
 			Map<String, Object> map = new HashMap<>();
 			return new ModelAndView(map, "login.mustache");
 		}, new MustacheTemplateEngine());
+		get("/recovery", (rq, rs) -> {
+			Map<String, Object> map = new HashMap<>();
+			return new ModelAndView(map, "recovery.mustache");
+		}, new MustacheTemplateEngine());
+		get("/signup", (rq, rs) -> {
+			Map<String, Object> map = new HashMap<>();
+			return new ModelAndView(map, "signup.mustache");
+		}, new MustacheTemplateEngine());
+		post("/signup/newUser", (rq, rs) ->{
+			UserData newUser = new UserData(rq.queryParams("name"),rq.queryParams("tempPassword"));
+			DatabaseConfig.instance.addToDatabase(newUser);
+			rs.redirect("/login");
+			return null;
+		});
+		//This route is a stub for testing authentication
+		get("/login/authentication/authenticated", (rq,rs) -> {
+			Map<String, Object> map = new HashMap<>();
+			return new ModelAndView(map, "authenticated.mustache");
+		}, new MustacheTemplateEngine());
+		post("/login/authentication", (rq, rs) ->{
+			ArrayList<UserData> users = DatabaseConfig.instance.getAllUsers();
+			String enteredName = rq.queryParams("username");
+			String enteredPassword = rq.queryParams("password");
+			UserData user = DatabaseConfig.instance.getUserByName(enteredName, users);
+			if(user.getTempPassword() == enteredPassword){
+				
+			}
+			else{
+				rs.redirect("/login/authentication/authenticated");
+			}
+			return null;
+		});
 	}
 }
