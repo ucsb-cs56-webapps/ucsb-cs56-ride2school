@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.Random;
 
 import org.bson.types.ObjectId;
@@ -122,29 +123,79 @@ public class WebConfig {
 		 */
 
 		get("/posts/:postID/edit", (rq, rs) -> {
+			System.out.println("yo");
 			PostData post = DatabaseConfig.instance.getPostByID(new ObjectId(rq.params(":postID")));
-    	Map<String, Object> map = new HashMap<>();
+    		Map<String, Object> map = new HashMap<>();
 			map.put("post", post);
 
 			return new ModelAndView(map, "editpost.mustache");
 		}, new MustacheTemplateEngine());
 
 		post("/posts/:postID/edit", (rq, rs) -> {
-			System.out.println("hi");
-			System.out.println(rq.body());
+			System.out.println("Editing function...");
+			System.out.println("rq.body(): " + rq.body());
+			System.out.println("rq.params(): " + rq.params());
+			System.out.println("rq.queryParams(): " + rq.queryParams());
+			System.out.println("rq.queryParams(seatstaken): " + rq.queryParams("seatstaken"));
+			
 			Map<String, String> info = rq.params();
-			PostData post = DatabaseConfig.instance.getPostByID(new ObjectId(rq.params(":postID")));
-			post.setDepartingLocation(new Location(info.get("departure")));
-			post.setArrivingLocation(new Location(info.get("arriving")));
-		//	post.setDate(info.get("date"));
-			post.setSeatsTaken(Integer.parseInt(info.get("seats taken")));
-			post.setRideSeats(Integer.parseInt(info.get("total seats")));
-			post.setPrice(Double.parseDouble(info.get("cost")));
-			DatabaseConfig.instance.modifyDatabaseObject(post);
 
-			System.out.println("hello");
-			rs.redirect("/posts/"+ post.getID()+"/view");
-			System.out.println("sup");
+			Map<String, String> reversedMap = new TreeMap<String, String>(info);
+
+			//then you just access the reversedMap however you like...
+			System.out.println("map size (num parameters): " + info.size());
+			for (Map.Entry entry : reversedMap.entrySet()) {
+				System.out.println(entry.getKey() + ", " + entry.getValue());
+			}
+
+
+
+			System.out.println("Getting post by ID...");
+			PostData post = DatabaseConfig.instance.getPostByID(new ObjectId(rq.params(":postID")));
+
+			System.out.println("Converted document before updating values with set: " + post.convertToDocument());
+
+
+			post.setDepartingLocation(new Location(info.get("departure")));
+			System.out.println("new set departing location: " + post.getDepartingLocation());
+
+
+			post.setArrivingLocation(new Location(info.get("arriving")));
+			System.out.println("new set arriving location: " + post.getArrivingLocation());
+
+		//	post.setDate(info.get("date"));
+
+			//System.out.println("Seats taken: " + rq.body().getElementById("seatstaken"));
+			//System.out.println("Seats taken: " + rq.body.seatstaken);
+			//System.out.println("Seats taken: " + info.get("seatstaken"));
+			
+			System.out.println("setting seats taken...");
+			//post.setSeatsTaken(Integer.parseInt(rq.queryParams("seatstaken")));
+			System.out.println("Checking value of seats taken in post: " + post.getSeatsTaken());
+			
+			//post.setSeatsTaken(Integer.parseInt(info.get("seatstaken")));
+			//post.setRideSeats(Integer.parseInt(info.get("totalseats")));
+			System.out.println("hi7");
+			//post.setPrice(Double.parseDouble(info.get("cost")));
+
+			System.out.println("Document after setting: " + post.convertToDocument());
+			
+			//DatabaseConfig.instance.modifyDatabaseObject(post);
+
+			//System.out.println("hello");
+			//rs.redirect("/posts/"+ post.getID()+"/view");
+			//System.out.println("sup");
+
+			System.out.println("deleting");
+
+			DatabaseConfig.instance.deleteDatabaseObject(post);
+
+			System.out.println("readding");
+
+			DatabaseConfig.instance.addToDatabase(post);
+
+			rs.redirect("/");
+
 			return new Document().append("auth","OK");
 		});
 

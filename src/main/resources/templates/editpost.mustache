@@ -7,28 +7,28 @@
 				<h3 class="panel-title"> {{post.getTitle}}</h3>
 			</div>
 
-  		<form method = "post" action="/posts/{{post.getID}}/edit">
-			Departing Location:<br>
-  		<input type="text" name="departure" value= "{{post.getDepartingLocation.getName}}">
-			<br><br>
-			Arriving Locaiton:<br>
-			<input type="text" name="arriving" value= "{{post.getArrivingLocation.getName}}">
-			<br><br>
-			Date and Time:<br>
-			<input type="text" name="date" value= "{{post.getDate}}">
-			<br><br>
-			Seats Taken:<br>
-			<input type="text" name="seats taken" value= "{{post.getSeatsTaken}}">
-			<br><br>
-			Total Seats:<br>
-			<input type="text" name="total seats" value= "{{post.getRideSeats}}">
-			<br><br>
-			Ride costs:<br>
-			<input type="text" name="cost" value= "{{post.Price}}">
-			<br><br>
-			<button type="submit">Submit Changes</button>
-			<br>
-		</form>
+  			<form method = "post" action="/posts/{{post.getID}}/edit">
+				Departing Location:<br>
+				<input type="text" name="departure" value="{{post.getDepartingLocation.getName}}">
+				<br><br>
+				Arriving Locaiton:<br>
+				<input type="text" name="arriving" value="{{post.getArrivingLocation.getName}}">
+				<br><br>
+				Date and Time:<br>
+				<input type="text" name="date" value="{{post.getDate}}">
+				<br><br>
+				Seats Taken:<br>
+				<input type="text" name="seatstaken" id="seatstaken" value="{{post.getSeatsTaken}}">
+				<br><br>
+				Total Seats:<br>
+				<input type="text" name="totalseats" value="{{post.getRideSeats}}">
+				<br><br>
+				Ride costs:<br>
+				<input type="text" name="cost" value="{{post.Price}}">
+				<br><br>
+				<button type="submit">Submit Changes</button>
+				<br>
+			</form>
 
 		<p> If you click the "Submit" button, your post will be updated with the new information.
 

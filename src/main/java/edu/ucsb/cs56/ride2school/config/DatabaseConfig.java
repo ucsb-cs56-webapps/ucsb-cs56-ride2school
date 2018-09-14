@@ -118,6 +118,7 @@ public class DatabaseConfig {
 		PostData post = null;
 		try {
 			post = new PostData(posts.find(new Document("_id", id)).first());
+			System.out.println("Getting post with ID: " + post.getID());
 		} catch (Exception e) {
 			System.out.println("Post with ID: " + id + " no longer exists");
 		}
@@ -140,7 +141,10 @@ public class DatabaseConfig {
 	public void modifyDatabaseObject(StoreableData data) {
 		MongoCollection<Document> collection = db.getCollection(data.getCollectionName());
 		try {
+			System.out.println("Doc filter: " + new Document("_id", data.getID()));
+			System.out.println("New version of document: " + data.convertToDocument());
 			collection.findOneAndUpdate(new Document("_id", data.getID()), data.convertToDocument());
+			System.out.println("Modifying object with ID: " + data.getID());
 		} catch (Exception e) {
 			System.out.println("Object with ID: " + data.getID() + " no longer exists");
 		}
