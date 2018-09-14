@@ -80,6 +80,8 @@ __Final Notes__
 
 Now your program should be up and running! If you did anything in this step wrong, there should be an error when running the project with debug information. Have fun and catch those rides!
 
+**_M18 Final Remarks_**
+Hello! Welcome to Ride2School. The original vision for this project was to be able to scrape information from the various Facebook RideShare groups and condense it into one feed. As of now, we have an independent site that can post/request rides. Our database is set up to hold information on users and posts and the site has "Administrator view." Some things you may want to work on is creating user profiles and implementing a search feature. We do have one bug where posts will be accidentally deleted twice. An opportunity for refactoring is to word on the /edit page. Though it updates posts, it redirects to the wrong page. Good luck!
 
 
 #
