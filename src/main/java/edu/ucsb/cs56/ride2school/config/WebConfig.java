@@ -33,7 +33,7 @@ public class WebConfig {
 	public WebConfig() {
 		System.out.println("Setting up Pages");
 		if (testingMode) {
-			deleteAllPostsAndUsers();
+			//deleteAllPostsAndUsers();
 			newUsers();
 			newPosts();
 		}
@@ -43,21 +43,23 @@ public class WebConfig {
 
 	private void deleteAllPostsAndUsers() {
 		
-		for(UserData ud : DatabaseConfig.instance.getAllUsers()) {
-			//System.out.println("Deleting user: " + ud.getID());
-			DatabaseConfig.instance.deleteDatabaseObject(ud);
-		}
-
 		for(PostData pd : DatabaseConfig.instance.getAllPosts()) {
 			//System.out.println("Deleting post: " + pd.getID());
 			DatabaseConfig.instance.deleteDatabaseObject(pd);
 		}
 
+		for(UserData ud : DatabaseConfig.instance.getAllUsers()) {
+			//System.out.println("Deleting user: " + ud.getID());
+			DatabaseConfig.instance.deleteDatabaseObject(ud);
+		}
+
+
+
 		System.out.println("Done deleting posts and users");
 	}
 
 	private void newUsers() {
-		int minUsers = 10;
+		int minUsers = 5;
 		System.out.println("Generating Random Users");
 		while (DatabaseConfig.instance.getAllUsers().size() < minUsers) {
 			DatabaseConfig.instance.addToDatabase(RandomUser.createRandomUser());
@@ -66,10 +68,12 @@ public class WebConfig {
 	}
 
 	private void newPosts() {
-		int minPosts = 10;
+		int minPosts = 5;
 		System.out.println("Generating Random Posts");
 		while (DatabaseConfig.instance.getAllPosts().size() < minPosts) {
-			DatabaseConfig.instance.addToDatabase(RandomPost.createRandomPost(100.00, 4));
+			PostData pd = RandomPost.createRandomPost(100.00, 4);
+			System.out.println("Created post: " + pd.getID());
+			DatabaseConfig.instance.addToDatabase(pd);
 		}
 		System.out.println("Done Generating Random Posts");
 	}
@@ -140,8 +144,12 @@ public class WebConfig {
 		 */
 
 		get("/posts/:postID/edit", (rq, rs) -> {
-			System.out.println("yo");
 			PostData post = DatabaseConfig.instance.getPostByID(new ObjectId(rq.params(":postID")));
+			System.out.println("test");
+			System.out.println(rq.params());
+			System.out.println(post);
+			// post.getID() + " " + 
+			System.out.println("edit1: " +rq.params(":postID"));
     		Map<String, Object> map = new HashMap<>();
 			map.put("post", post);
 
@@ -151,10 +159,10 @@ public class WebConfig {
 		post("/posts/:postID/edit", (rq, rs) -> {
 			rq.queryParams(); // Initial call here seems necessary or else queryParams() appears null
 			System.out.println("Editing post...");
-			// System.out.println("rq.body(): " + rq.body());
-			// System.out.println("rq.params(): " + rq.params());
-			// System.out.println("rq.queryParams(): " + rq.queryParams());
-			// System.out.println("rq.queryParams(seats taken): " + rq.queryParams("seats taken"));
+			System.out.println("rq.body(): " + rq.body());
+			System.out.println("rq.params(): " + rq.params());
+			System.out.println("rq.queryParams(): " + rq.queryParams());
+			System.out.println("rq.queryParams(seats taken): " + rq.queryParams("seats taken"));
 
 			PostData post = DatabaseConfig.instance.getPostByID(new ObjectId(rq.params(":postID")));
 			//System.out.println("Converted document before updating values with set: " + post.convertToDocument());
@@ -165,9 +173,9 @@ public class WebConfig {
 
 			// Consider changing the data formats to be more user friendly for editing.  Or show a clickable calendar.
 			SimpleDateFormat format = new SimpleDateFormat("E M dd hh:mm:ss zzz yyyy ", Locale.ENGLISH);
-			Date newDate = format.parse(rq.queryParams("date"));
-			System.out.println(newDate);
-			post.setDate(newDate);
+			// Date newDate = format.parse(rq.queryParams("date"));
+			// System.out.println(newDate);
+			// post.setDate(newDate);
 			//post.setDate(info.get("date"));
 
 			//System.out.println("Seats taken: " + rq.body().getElementById("seatstaken"));
