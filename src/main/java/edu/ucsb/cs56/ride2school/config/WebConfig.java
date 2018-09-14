@@ -2,7 +2,7 @@ package edu.ucsb.cs56.ride2school.config;
 
 import static spark.Spark.get;
 import static spark.Spark.post;
-
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -153,59 +153,33 @@ public class WebConfig {
 			System.out.println("Editing function...");
 			// System.out.println("rq.body(): " + rq.body());
 			// System.out.println("rq.params(): " + rq.params());
-			// System.out.println("rq.queryParams(): " + rq.queryParams());
+			System.out.println("rq.queryParams(): " + rq.queryParams());
 			// System.out.println("rq.queryParams(seatstaken): " + rq.queryParams("seatstaken"));
 			
 			PostData post = DatabaseConfig.instance.getPostByID(new ObjectId(rq.params(":postID")));
 			//System.out.println("Converted document before updating values with set: " + post.convertToDocument());
 			post.setDepartingLocation(new Location(rq.queryParams("departure")));
 			post.setArrivingLocation(new Location(rq.queryParams("arriving")));
-			//post.setArrivignLocation(new LLocation(info.get("arriving")));
-			//System.out.println("new set arriving location: " + post.getArrivingLocation());
 
 			//Consider changing the data formats to be more user friendly for editing. Or show a clickable calendar.
-			SimpleDateFormat format = new SimpleDateFormat("E M dd hh:mm:ss zzz yyyy ", Locale.ENGLISH);
-			//Date newDate = format.parse(rq.queryParams("date"));
-			// System.out.println(newDate);
-			// post.setDate(newDate);
-			//post.setDate(info.get("date"));
-
-			//System.out.println("Seats taken: " + rq.body().getElementById("seatstaken"));
-			//System.out.println("Seats taken: " + rq.body.seatstaken);
-			//System.out.println("Seats taken: " + info.get("seatstaken"));
-			
-			System.out.println("hi5");
-			//System.out.println("setting seats taken...");
+			SimpleDateFormat format = new SimpleDateFormat("EEE MMMM dd hh:mm:ss z yyyy", Locale.ENGLISH);
+			post.setDate(format.parse(rq.queryParams("date")));
 			post.setSeatsTaken(Integer.parseInt(rq.queryParams("seats taken")));
-			//System.out.println("Checking value of seats taken in post: " + post.getSeatsTaken());
-
-			System.out.println("hi");
 			post.setRideSeats(Integer.parseInt(rq.queryParams("total seats")));			
-			//post.setSeatsTaken(Integer.parseInt(info.get("seatstaken")));
-			//post.setRideSeats(Integer.parseInt(info.get("totalseats")));
-			System.out.println("hi7");
-			//post.setPrice(Double.parseDouble(info.get("cost")));
 			post.setPrice(Double.parseDouble(rq.queryParams("cost")));
-
 			post.setLastUpdate(new Date());
-
 			System.out.println("Document after setting: " + post.convertToDocument());
 			
-			//DatabaseConfig.instance.modifyDatabaseObject(post);
-
-			//System.out.println("hello");
-			//rs.redirect("/posts/"+ post.getID()+"/view");
-			//System.out.println("sup");
+			// GTo do: get this modifyDatabaseObject method working instead of deleting and readding.
+			// DatabaseConfig.instance.modifyDatabaseObject(post);
 
 			System.out.println("deleting");
-
 			DatabaseConfig.instance.deleteDatabaseObject(post);
-
 			System.out.println("readding");
-
 			DatabaseConfig.instance.addToDatabase(post);
 
-			rs.redirect("/");
+			//rs.redirect("/");
+			rs.redirect("/posts/"+ post.getID()+"/view");
 
 			return new Document().append("auth","OK");
 		});
