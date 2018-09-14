@@ -2,7 +2,7 @@ package edu.ucsb.cs56.ride2school.config;
 
 import static spark.Spark.get;
 import static spark.Spark.post;
-
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -32,6 +32,7 @@ public class WebConfig {
 	public WebConfig() {
 		System.out.println("Setting up Pages");
 		if (testingMode) {
+			deleteAllPostsAndUsers();
 			newUsers();
 			newPosts();
 		}
@@ -39,8 +40,24 @@ public class WebConfig {
 		System.out.println("Finished setting up pages");
 	}
 
+	private void deleteAllPostsAndUsers(){
+
+		for(UserData ud : DatabaseConfig.instance.getAllUsers()){
+			//System.out.println("Deleting user: " + ud.getID());
+			DatabaseConfig.instance.deleteDatabaseObject(ud);
+		}
+
+		for(PostData pd : DatabaseConfig.instance.getAllPosts()){
+			//System.out.println("Deleting post: " + pd.getID());
+			DatabaseConfig.instance.deleteDatabaseObject(pd);
+		}
+
+		System.out.println("Done deleting old posts and users");
+
+	}
+
 	private void newUsers() {
-		int minUsers = 60;
+		int minUsers = 10;
 		System.out.println("Generating Random Users");
 		while (DatabaseConfig.instance.getAllUsers().size() < minUsers) {
 			DatabaseConfig.instance.addToDatabase(RandomUser.createRandomUser());
@@ -49,7 +66,7 @@ public class WebConfig {
 	}
 
 	private void newPosts() {
-		int minPosts = 60;
+		int minPosts = 10;
 		System.out.println("Generating Random Posts");
 		while (DatabaseConfig.instance.getAllPosts().size() < minPosts) {
 			DatabaseConfig.instance.addToDatabase(RandomPost.createRandomPost(100.00, 4));
@@ -132,72 +149,37 @@ public class WebConfig {
 		}, new MustacheTemplateEngine());
 
 		post("/posts/:postID/edit", (rq, rs) -> {
-			System.out.println("path: " + rq.pathInfo());
-
-			System.out.println("rq.params() list: " + rq.queryParams());
+			rq.queryParams(); // Initial call here seems necessary or else queryParams() appears null
 			System.out.println("Editing function...");
-			System.out.println("rq.body(): " + rq.body());
-			System.out.println("rq.params(): " + rq.params());
+			// System.out.println("rq.body(): " + rq.body());
+			// System.out.println("rq.params(): " + rq.params());
 			System.out.println("rq.queryParams(): " + rq.queryParams());
-			System.out.println("rq.queryParams(seatstaken): " + rq.queryParams("seatstaken"));
+			// System.out.println("rq.queryParams(seatstaken): " + rq.queryParams("seatstaken"));
 			
-			Map<String, String> info = rq.params();
-
-			Map<String, String> reversedMap = new TreeMap<String, String>(info);
-
-			//then you just access the reversedMap however you like...
-			System.out.println("map size (num parameters): " + info.size());
-			for (Map.Entry entry : reversedMap.entrySet()) {
-				System.out.println(entry.getKey() + ", " + entry.getValue());
-			}
-
-
-
-			System.out.println("Getting post by ID...");
 			PostData post = DatabaseConfig.instance.getPostByID(new ObjectId(rq.params(":postID")));
+			//System.out.println("Converted document before updating values with set: " + post.convertToDocument());
+			post.setDepartingLocation(new Location(rq.queryParams("departure")));
+			post.setArrivingLocation(new Location(rq.queryParams("arriving")));
 
-			System.out.println("Converted document before updating values with set: " + post.convertToDocument());
-
-
-			post.setDepartingLocation(new Location(info.get("departure")));
-			System.out.println("new set departing location: " + post.getDepartingLocation());
-
-
-			post.setArrivingLocation(new Location(info.get("arriving")));
-			System.out.println("new set arriving location: " + post.getArrivingLocation());
-
-		//	post.setDate(info.get("date"));
-
-			//System.out.println("Seats taken: " + rq.body().getElementById("seatstaken"));
-			//System.out.println("Seats taken: " + rq.body.seatstaken);
-			//System.out.println("Seats taken: " + info.get("seatstaken"));
-			
-			System.out.println("setting seats taken...");
-			//post.setSeatsTaken(Integer.parseInt(rq.queryParams("seatstaken")));
-			System.out.println("Checking value of seats taken in post: " + post.getSeatsTaken());
-			
-			//post.setSeatsTaken(Integer.parseInt(info.get("seatstaken")));
-			//post.setRideSeats(Integer.parseInt(info.get("totalseats")));
-			System.out.println("hi7");
-			//post.setPrice(Double.parseDouble(info.get("cost")));
-
+			//Consider changing the data formats to be more user friendly for editing. Or show a clickable calendar.
+			SimpleDateFormat format = new SimpleDateFormat("EEE MMMM dd hh:mm:ss z yyyy", Locale.ENGLISH);
+			post.setDate(format.parse(rq.queryParams("date")));
+			post.setSeatsTaken(Integer.parseInt(rq.queryParams("seats taken")));
+			post.setRideSeats(Integer.parseInt(rq.queryParams("total seats")));			
+			post.setPrice(Double.parseDouble(rq.queryParams("cost")));
+			post.setLastUpdate(new Date());
 			System.out.println("Document after setting: " + post.convertToDocument());
 			
-			//DatabaseConfig.instance.modifyDatabaseObject(post);
-
-			//System.out.println("hello");
-			//rs.redirect("/posts/"+ post.getID()+"/view");
-			//System.out.println("sup");
+			// To do: get this modifyDatabaseObject method working instead of deleting and readding.
+			// DatabaseConfig.instance.modifyDatabaseObject(post);
 
 			System.out.println("deleting");
-
 			DatabaseConfig.instance.deleteDatabaseObject(post);
-
 			System.out.println("readding");
-
 			DatabaseConfig.instance.addToDatabase(post);
 
-			rs.redirect("/");
+			//rs.redirect("/");
+			rs.redirect("/posts/"+ post.getID()+"/view");
 
 			return new Document().append("auth","OK");
 		});
