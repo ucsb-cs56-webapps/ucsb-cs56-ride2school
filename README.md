@@ -57,7 +57,7 @@ export HOST_=<your host name>
 __!!! IMPORTANT !!!__
 You must run the following command in terminal every session. Without this there will be an error!
 
-__Using Heroku (optional)__
+__Using Heroku (optional, currently not working fix that for 100 pts)__
 
 If you are using heroku follow these steps:
 
@@ -76,9 +76,3 @@ HOST_        <your host name>
 __Final Notes__
 
 Now your program should be up and running! If you did anything in this step wrong, there should be an error when running the project with debug information. Have fun and catch those rides!
-
-
-
-#
-Hi this is your mentor Derek, this is gonna be a pretty tough project given the very limited time and the complexity of frameworks. So if guys need help with your projects/labs feel free to send me an email. Or you can arrange an appointment with me on Tuesday anytime in the afternoon (except 2:00 - 3:30). 
-email:guancheng_ren@umail.ucsb.edu
