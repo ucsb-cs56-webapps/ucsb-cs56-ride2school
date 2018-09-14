@@ -15,11 +15,11 @@ import java.util.Random;
 
 import org.bson.types.ObjectId;
 
-import Util.RandomPost;
-import Util.RandomUser;
 import edu.ucsb.cs56.ride2school.data.Location;
 import edu.ucsb.cs56.ride2school.data.PostData;
 import edu.ucsb.cs56.ride2school.data.UserData;
+import edu.ucsb.cs56.ride2school.util.RandomPost;
+import edu.ucsb.cs56.ride2school.util.RandomUser;
 import spark.ModelAndView;
 import spark.template.mustache.MustacheTemplateEngine;
 
