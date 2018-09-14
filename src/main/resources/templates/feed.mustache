@@ -9,23 +9,23 @@
                     <h3 class="panel-title"> {{getTitle}} </h3>
                 </div>
                     <form method="PUT" action="/posts/{{getID}}/edit">
-                        <button type="submit" class="btn btn-link">Edit Post</button>
+                        <button type="submit" class="btn btn-link"><b>Edit Post</b></button>
                     </form>
 
                     <form method="DELETE" action="/posts/{{getID}}/delete">
-                        <button type="submit" class="btn btn-link">Delete Post</button>
+                        <button type="submit" class="btn btn-link"><b>Delete Post</b></button>
                     </form>
 
                     <form method="GET" action="/posts/{{getID}}/view">
-                        <button type="submit" class="btn btn-link">View Post</button>
+                        <button type="submit" class="btn btn-link"><b>View Post</b></button>
                     </form>
                     <div align="center" class="panel-body">
-                        Ride from {{getDepartingLocation.getName}} to {{getArrivingLocation.getName}}
-                        <br> Ride is at {{getDate}}
-                        <br> There is {{getSeatsLeft}} out of {{getRideSeats}} seats left
-                        <br> Ride costs {{getPrice}}
-                        <br> Ride is from {{getPoster.getName}}
-                        <br> Last update is from {{getLastUpdate}}
+                        <b>Ride from {{getDepartingLocation.getName}} to {{getArrivingLocation.getName}}</b>
+                        <br> <b>Ride time is at {{getDate}}</b>
+                        <br> <b>There are {{getSeatsLeft}} out of {{getRideSeats}} seats left</b>
+                        <br> <b>Ride cost is ${{getPrice}}</b>
+                        <br> <b>Ride is from {{getPoster.getName}}</b>
+                        <br> <b>Last update is from {{getLastUpdate}}</b>
                     </div>
                 
             </div>

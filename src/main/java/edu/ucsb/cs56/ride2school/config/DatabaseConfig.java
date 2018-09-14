@@ -31,7 +31,7 @@ public class DatabaseConfig {
 	}
 
 	private void setUpDatabase() {
-		System.out.println("Setting up Database");
+		System.out.println("Connecting to Database...");
 
 		String dbUser = System.getenv().get("USER_");
 		String dbPassword = System.getenv().get("PASS_");
@@ -47,20 +47,23 @@ public class DatabaseConfig {
 		// Test Connection Works
 		try {
 			db.runCommand(new Document().append("connectionStatus", 1).append("showPrivileges", false));
-			System.out.println("Finished setting up Database");
+			System.out.println("Finished connecting to Database");
 		} catch (MongoTimeoutException e) {
 			/*
 			 * If you get this error make sure the env.sh file is set up
 			 * correctly
 			 * 
-			 * Correct Info:
+			 * Correct file info:
 			 * 
-			 * export USER_=YOURUSERNAME export PASS_=YOURPASSWORD export
-			 * DB_NAME_=YOURDBNAME export HOST_=YOURHOSTURL
+			 * export USER_=YOURUSERNAME
+			 * export PASS_=YOURPASSWORD
+			 * export DB_NAME_=YOURDBNAME
+			 * export HOST_=YOURHOSTURL
 			 * 
 			 */
 			System.err.println("Failed to connect to Database");
 			System.err.println("Tried connecting using: " + requestString);
+			System.err.println("Ensure that your env.h file is set up and you have executed it by typing . env.sh");
 			System.exit(0);
 		}
 	}
@@ -154,6 +157,7 @@ public class DatabaseConfig {
 	public void deleteDatabaseObject(StoreableData data) {
 		MongoCollection<Document> collection = db.getCollection(data.getCollectionName());
 		try {
+			System.out.println("Deletion call on " + data.getCollectionName() + ": " + data.getID());
 			collection.findOneAndDelete(new Document("_id", data.getID()));
 		} catch (Exception e) {
 			System.out.println("Object with ID: " + data.getID() + " no longer exists");
